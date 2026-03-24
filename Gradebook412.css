@@ -1,9 +1,41 @@
-body {
-  color: blue;
+
+.title-div * {
+  /* grid 
+  display: grid;
+  text-align: center;
+*/
+  /* cosmetics */
+  color: rgb(103, 103, 176);
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
 }
 
-h1 {
-
+.main-title {
+  padding-bottom: 5px;
 }
+
+.sub-title {
+  font-size: 20px;
+}
+
+.widget-container {
+  /* grid */
+  display: grid;
+  grid-template-rows: 100px 100px;
+  grid-template-columns: 200px auto;
+  gap: 10px 10px;
+}
+
+.widget {
+  /* cosmetics */
+  background-color: lightgray;
+  border: 1px solid grey;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+}
+
+  
+
+
 
 

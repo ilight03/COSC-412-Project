@@ -1,41 +1,135 @@
 
-.title-div * {
-  /* grid 
-  display: grid;
-  text-align: center;
-*/
-  /* cosmetics */
-  color: rgb(103, 103, 176);
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
+/* Global styles */
+:root {
+     --soft--red: #e57373;
+     --soft--green: #81c784;
 }
 
-.main-title {
-  padding-bottom: 5px;
+body {
+  font-family: 'Red Hat Text', sans-serif;
+  background-color:rgb(17, 17, 17);
+  background-size: cover;
+  color: rgb(146, 146, 146);
 }
+
+/*---- TITLE START ----*/
+.title-container * {
+  display: grid;
+  text-align: center;
+  font-weight: bold;
+} /*---- TITLE END ----*/
+
 
 .sub-title {
   font-size: 20px;
 }
 
-.widget-container {
-  /* grid */
+
+
+/*---- APPLIED TO ALL WIDGETS BEGIN ----*/
+.container-all-widgets {
   display: grid;
-  grid-template-rows: 100px 100px;
-  grid-template-columns: 200px auto;
+  grid-template-rows: 250px 100px;
+  grid-template-columns: 300px auto;
   gap: 10px 10px;
 }
 
-.widget {
-  /* cosmetics */
-  background-color: lightgray;
-  border: 1px solid grey;
+.widget-container {
+  background-color: rgb(21, 21, 21);
+  border: 2px solid rgb(55, 55, 55);
   padding: 10px 10px 10px 10px;
   border-radius: 10px;
+
+  text-align: center;
+  padding-inline: 1rem;
+  max-width: 1440px;
 }
 
+.widget-container h1 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+/*---- APPLIED TO ALL WIDGETS END ----*/
   
 
+/*---- TIMER SPECIFIC BEGIN ----*/
+.countdown-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-container .title{
+  position: relative;
+  background-color: #2e2c44;
+  border-radius : 0.3rem;
+  box-shadow: 0 4px rgba(0, 0, 0, 0.5);
+  width: 70px;
+  height: 70px;
+}
+
+.countdown-container .title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.countdown-container .title h2 {
+  font-size: 1.7rem;
+  line-height: 70px;
+  position: relative;
+}
+
+/* makes the number squares spaced apart from each other*/
+.countdown-container .countdown:not(:last-child) {
+  margin-right: 1rem;
+}
+
+/* the 'minutes' and 'seconds' text*/
+.countdown-container .countdown p {
+  font-size: 0.7rem;
+}
+
+/*---- TIMER SPECIFIC END ----*/
 
 
 
+/*---- TIMER START/END BUTTON BEGIN ----*/
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.button-container .title{
+  position: relative;
+  border-radius : 0.3rem;
+  box-shadow: 0 0 rgba(0, 0, 0, 0.5);
+  width: 70px;
+  height: 70px;
+}
+
+.button-container .title .start {
+  background-color: var(--soft--red);
+}
+
+.button-container .title .end {
+  background-color: var(--soft--green);
+}
+
+
+
+/* makes the number squares spaced apart from each other*/
+.button-container .button:not(:last-child) {
+  margin-right: 1rem;
+}
+
+
+/*---- TIMER START/END BUTTON END ----*/

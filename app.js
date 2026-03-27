@@ -26,5 +26,14 @@ function stopTimer() {
   clearInterval(interval);
 }
 
+function clearTimer() {
+    clearInterval(interval);
+    minutes = 25;
+    seconds = 0;
+    document.querySelector('.minutes').textContent = minutes;
+    document.querySelector('.seconds').textContent = '00';
+}
+
 document.querySelector('.start').addEventListener('click', startTimer);
 document.querySelector('.end').addEventListener('click', stopTimer);
+document.querySelector('.clear').addEventListener('click', clearTimer);

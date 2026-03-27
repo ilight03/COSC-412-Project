@@ -3,6 +3,7 @@
 :root {
      --soft--red: #e57373;
      --soft--green: #81c784;
+     --dark--grey: #3b3b3b;; 
 }
 
 body {
@@ -26,22 +27,22 @@ body {
 
 
 
+
 /*---- APPLIED TO ALL WIDGETS BEGIN ----*/
 .container-all-widgets {
   display: grid;
-  grid-template-rows: 250px 100px;
-  grid-template-columns: 300px auto;
+  grid-template-rows: 280px 400px;
+  grid-template-columns: 400px minmax(350px, auto);
   gap: 10px 10px;
 }
 
 .widget-container {
   background-color: rgb(21, 21, 21);
   border: 2px solid rgb(55, 55, 55);
-  padding: 3px 10px 10px 10px;
+  padding: 10px 10px;
   border-radius: 10px;
 
   text-align: center;
-  padding-inline: 1rem;
   max-width: 1440px;
 }
 
@@ -50,30 +51,34 @@ body {
   letter-spacing: 1px;
   font-style: italic;
 }
-
 /*---- APPLIED TO ALL WIDGETS END ----*/
   
 
 /*---- TIMER SPECIFIC BEGIN ----*/
+
+.studyOrBreak {
+  font-size: 10px;
+}
+
 .countdown-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.countdown-container .title{
+.countdown-container .title {
   position: relative;
-  background-color: #3b3b3b;
+  background-color: var(--dark--grey);
   border-radius : 0.3rem;
   box-shadow: 0 4px rgba(0, 0, 0, 0.5);
   width: 70px;
   height: 70px;
 }
 
-.countdown-container .title::after {
+.countdown-container .title::after{
   content: '';
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
   height: 1px;
   width: 100%;
@@ -134,21 +139,20 @@ body {
   padding: 3px;
 }
 
+.button-container .clear {
+  background-color: grey;
+  border-radius : 0.8rem;
+  color:rgb(17, 17, 17);
+  padding: 3px;
+}
+
 /*makes touch-activated changes possible*/
 .button h2 {
   display: block;
   transition: transform 0.2s ease;
 }
 
-.button .start {
-  display: block;
-  transition: transform 0.2s ease;
-}
 
-.button .end {
-  display: block;
-  transition: transform 0.2s ease;
-}
 .button h2:active {
   transform: translateY(-2px);
 }

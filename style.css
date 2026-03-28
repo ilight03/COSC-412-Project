@@ -164,3 +164,47 @@ body {
 
 
 /*---- TIMER START/END BUTTON END ----*/
+
+/*---- NOTES BEGIN ----*/
+.notes-input {
+  width: 80%;
+  min-height: 220px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #555;
+  background: #f8f1d7;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #f8f1d7 0,
+    #f8f1d7 29px,
+    rgba(34, 34, 34, 0.18) 30px,
+    rgba(34, 34, 34, 0.18) 30px
+  );
+  background-position: 0 15px;
+  color: #222;
+  resize: vertical;
+  font: inherit;
+  line-height: 30px;
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+
+.notes-save {
+  border: none;
+  border-radius: 0.8rem;
+  background-color: var(--soft--green);
+  color: rgb(17, 17, 17);
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+}

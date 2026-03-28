@@ -1,6 +1,8 @@
 let minutes = 25;
 let seconds = 0;
 let interval;
+const notesInput = document.querySelector('.notes-input');
+const notesSaveButton = document.querySelector('.notes-save');
 
 function startTimer() {
 clearInterval(interval);
@@ -34,6 +36,28 @@ function clearTimer() {
     document.querySelector('.seconds').textContent = '00';
 }
 
+function noteSave() {
+  if (!notesInput) {
+    return;
+  }
+
+  localStorage.setItem('studentHelperNotes', notesInput.value);
+}
+
+function loadSavedNotes() {
+  if (!notesInput) {
+    return;
+  }
+
+  notesInput.value = localStorage.getItem('studentHelperNotes') || '';
+}
+
 document.querySelector('.start').addEventListener('click', startTimer);
 document.querySelector('.end').addEventListener('click', stopTimer);
 document.querySelector('.clear').addEventListener('click', clearTimer);
+
+if (notesSaveButton) {
+  notesSaveButton.addEventListener('click', noteSave);
+}
+
+loadSavedNotes();

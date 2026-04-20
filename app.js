@@ -7,7 +7,7 @@ const notesSaveButton = document.querySelector('.notes-save');
 // Date is sent back to the database
 // I did some formatting things to ensure backend receives it smoothly since the database just uses year, month, and day, which differs from the JS Date object formatting
 const dateObject = new Date();
-let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend, this statement
+let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend
 date = date.substring(0, 10); // ensures the right format for backend
 
 function startTimer() {

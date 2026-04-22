@@ -6,9 +6,6 @@ const notesSaveButton = document.querySelector('.notes-save');
 
 // Date is sent back to the database
 // I did some formatting things to ensure backend receives it smoothly since the database just uses year, month, and day, which differs from the JS Date object formatting
-const dateObject = new Date();
-let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend
-date = date.substring(0, 10); // ensures the right format for backend
 
 function startTimer() {
 clearInterval(interval);
@@ -16,13 +13,37 @@ clearInterval(interval);
     if (seconds === 0) {
       if (minutes === 0) {
         clearInterval(interval); // stop when done
-
-
+        //iago: I moved the date creation inside the timer completion
+        const dateObject = new Date();
+        let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend
+        date = date.substring(0, 10); // ensures the right format for backend
+        //fire
+        fetch("http://localhost:8080/studysessions", {//fetches emmas local database api
+        method: "POST",  //fetch is an http get by default so POST to write
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          date: date,
+          duration: 25 //here i send 25 just assuming the user completed, I could add logic to dynamically send duration later.
+          // that's all just parameters for fetch method, where, how, what to send, what type.
+        })
+      })
+      .then(response => { // now this checks if the request succeeded and does crash on empty/non json
+        if(!response.ok){ // only did this bc i didn't know if database returns json always or what.
+          throw new Error("Failed to save session");
+        }
+        return response.text();
+      }) //what to do if fetch work return response (safely)
+      .then(data => console.log("Saved study session:", data)) //now we can use the data
+      .catch(error => console.error("Error saving study session", error)) //error handling
         // [BACKEND] SESSION COMPLETION 
         // This is where you'd log a completed Pomodoro session to the DB.
         // Example API call:
         //   POST /api/sessions { userId, duration: 25, completedAt: new Date() }
         // You could also fetch updated stats to display (e.g., sessions today)
+        //
+
         return;
       }
       minutes--;

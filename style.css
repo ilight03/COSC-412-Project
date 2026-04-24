@@ -37,7 +37,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-
 }
 
 .wrapper {
@@ -84,6 +83,13 @@ body {
   font-size: 16px;
   color: #333;
   font-weight: 600;
+}
+
+.register-note {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  font-style: italic;
 }
 /* ---- LOGIN PAGE END ---- */
 

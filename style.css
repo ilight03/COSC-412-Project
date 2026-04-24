@@ -1,5 +1,5 @@
 
-/* Global styles */
+/* ---- GLOBAL START ---- */
 :root {
      --soft--red: #e57373;
      --soft--green: #81c784;
@@ -7,28 +7,89 @@
 }
 
 body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  background: linear-gradient(309deg, rgba(67, 67, 84, 1) 0%, rgba(0, 0, 0, 1) 100%);
+
   font-family: 'Red Hat Text', sans-serif;
-  background-color:rgb(17, 17, 17);
   background-size: cover;
   color: rgb(146, 146, 146);
 }
 
-/*---- TITLE START ----*/
 .title-container * {
   display: grid;
   text-align: center;
   font-weight: bold;
-} /*---- TITLE END ----*/
-
+} 
 
 .sub-title {
   font-size: 20px;
 }
+/* ---- GLOBAL END ---- */
 
 
 
+/* ---- LOGIN PAGE START ---- */
 
-/*---- APPLIED TO ALL WIDGETS BEGIN ----*/
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+}
+
+.wrapper {
+  width: 420px;
+  color:#fff;
+}
+
+.wrapper h1 {
+  font-size: 36px;
+  text-align: center;
+}
+
+.wrapper .input-box {
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  width: 350px;
+  height: 10px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(255,255,255, .2);
+  border-radius: 40px;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+  color: #fff;
+}
+
+.wrapper .btn {
+  width: 100%;
+  height: 45px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+/* ---- LOGIN PAGE END ---- */
+
+
+
+/*---- APPLIED TO ALL INDEX PAGE WIDGETS BEGIN ----*/
 .container-all-widgets {
   display: grid;
   grid-template-rows: 280px 400px;
@@ -51,7 +112,7 @@ body {
   letter-spacing: 1px;
   font-style: italic;
 }
-/*---- APPLIED TO ALL WIDGETS END ----*/
+/*---- APPLIED TO ALL INDEX PAGE WIDGETS END ----*/
   
 
 /*---- TIMER SPECIFIC BEGIN ----*/

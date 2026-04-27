@@ -1,4 +1,3 @@
-
 /* ---- GLOBAL START ---- */
 :root {
      --soft--red: #e57373;
@@ -96,10 +95,17 @@ body {
 
 
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS BEGIN ----*/
-.container-all-widgets {
+.container-half-page-widgets {
   display: grid;
-  grid-template-rows: 280px 400px;
+  grid-template-rows: 280px 5px;
   grid-template-columns: 400px minmax(350px, auto);
+  gap: 10px 10px;
+}
+
+.container-full-page-widgets {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
   gap: 10px 10px;
 }
 

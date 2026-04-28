@@ -281,3 +281,40 @@ body {
   letter-spacing: 1px;
   cursor: pointer;
 }
+/* NOTES END */
+
+
+/*RETRIEVE NOTES WIDGET START*/
+.summary-widget-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+}
+
+.summary-first-widget-container {
+    display: grid;
+    grid-template-rows: 1fr 9fr;
+    gap: 10px;
+    height: 400px; /* ← add this */
+}
+
+.summary-second-widget-container {
+    display: grid;
+    grid-template-rows: 9fr 1fr;
+    gap: 10px;
+    height: 400px; 
+}
+
+.summary-inner-widget {
+    border: 1px solid #555;
+    border-radius : 0.3rem;
+}
+
+.button-container .start {
+  background-color: var(--soft--red);
+  border-radius : 0.8rem;
+  color:rgb(17, 17, 17);
+  padding: 3px;
+}
+/*RETRIEVE NOTES WIDGET END*/

@@ -2,6 +2,7 @@ let minutes = 25;
 let seconds = 0;
 let interval;
 const notesInput = document.querySelector('.notes-input');
+const titleInput = document.querySelector('.title-input'); 
 const notesSaveButton = document.querySelector('.notes-save');
 
 // Date is sent back to the database
@@ -76,13 +77,15 @@ function clearTimer() {
 
 // ----------- NOTE FUNCTIONALITY--------------------
 function noteSave() {
-  if (!notesInput) {
+  if (!notesInput || !titleInput) {
     return;
   }
 
   // Currently saves to localStorage (browser only — not persisted to DB)
   localStorage.setItem('studentHelperNotes', notesInput.value);
 
+  //Add notes title to this 
+  localStorage.setItem('studentHelperNotesTitle', titleInput.value)
   // [BACKEND] SAVE NOTE TO DATABASE
   // Replace or supplement the localStorage call above with an API request.
   // Example:
@@ -91,15 +94,44 @@ function noteSave() {
   //
   // On success, you might show a confirmation message to the user.
   // On failure, the localStorage save above acts as a fallback.
+  // [BACKEND] SAVE NOTE TO DATABASE
+
+  // Future fetch idea:
+
+  /*
+
+  fetch("http://localhost:8080/notes", {
+
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: titleInput.value,
+      content: notesInput.value,
+      savedAt: new Date().toISOString()
+    })
+  })
+  .then(response => {
+
+    if (!response.ok) {
+      throw new Error("Failed to save note");
+    }
+    return response.text();
+  })
+  .then(data => console.log("Saved note:", data))
+  .catch(error => console.error("Error saving note:", error));
+  */
 }
 
 function loadSavedNotes() {
-  if (!notesInput) {
+  if (!notesInput || !titleInput) {
     return;
   }
 
   // Currently loads from localStorage (browser only)
   notesInput.value = localStorage.getItem('studentHelperNotes') || '';
+  titleInput.value = localStorage.getItem('studentHelperNotesTitle') || '';
 
   // [BACKEND] LOAD NOTE FROM DATABASE
   // Replace or supplement this with a fetch call to retrieve the user's saved note.
@@ -110,6 +142,22 @@ function loadSavedNotes() {
   // Then set: notesInput.value = data.content || '';
   //
   // Consider keeping localStorage as an offline/guest fallback.
+
+  // [BACKEND] LOAD NOTE FROM DATABASE
+
+  // Future fetch idea:
+
+  /*
+
+  fetch("http://localhost:8080/notes")
+
+    .then(response => response.json())
+    .then(data => {
+      titleInput.value = data.title || '';
+      notesInput.value = data.content || '';
+    })
+    .catch(error => console.error("Error loading note:", error));
+  */
 
 }
 

@@ -237,8 +237,59 @@ body {
 
 
 /*---- TIMER START/END BUTTON END ----*/
+/*---- NOTES TITLE BEGIN ----*/
+.notes-title-row {
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+.title-input::placeholder {
+  color: #888;
+  font-style: italic;
+}
+.title-input {
+  width: 100%;
+
+  max-width: 400px;
+  height: 20px;
+  width: 250px;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+  border: 1px solid #444;
+
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  outline: none;
+  transition: all 0.2s ease;
+}
+.title-input:hover {
+  border-color: #666;
+}
+
+.title-input:focus {
+  border-color: #81c784; /* your soft green */
+  box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
+}
+/*---- NOTES TITLE END----*/
 
 /*---- NOTES BEGIN ----*/
+
+.notes-input::placeholder{
+  color: #888;
+  font-style: italic;
+}
+
 .notes-input {
   width: 80%;
   min-height: 220px;

@@ -20,12 +20,12 @@
 
 
 
-        <!-- WIDGETS-->
+        <!-- ALL WIDGETS-->
         <div class="container-half-page-widgets">
             
             <div class="widget-container"> 
 
-                <!-- COUNTDOWN-->
+                <!-- TIMER WIDGET-->
                     <h1 class = "sub-title"> Timer </h1>
 
                     <p class = studyOrBreak > [study mode]</p>
@@ -70,7 +70,7 @@
 
             </div>
 
-
+            <!--CHART WIDGET-->
             <div class="widget-container"> 
                 <div class="chart-container">
                     <h1 class = "sub-title"> Chart </h1>
@@ -82,14 +82,19 @@
         
         </div>
         
+        <!--NOTES WIDGET-->
         <div class="container-full-page-widgets">
             <div class="widget-container"> 
                 <div class="notes-container">
                     <h1 class = "sub-title"> Notes</h1>
+
+                    <!--notes title request-->
                     <div class = "notes-title-row">
                         <h2 class="sub-title">Title: </h2>
                         <input class="title-input" type="text" placeholder="title your notes..."></textarea>
                     </div>
+
+                    <!--write notes-->
                     <div class = "notes">
                         <textarea class="notes-input" placeholder="write your notes here..."></textarea>
                         <button class="notes-save" type="button">save notes</button>
@@ -97,32 +102,40 @@
                 </div>
             </div>
 
+
+            <!--RETRIEVE NOTES WIDGET-->
             <div class="widget-container"> 
                 <div class="summary-container">
                     <h1 class = "sub-title"> Retrieve Notes</h1>
 
+
+                    <!--inner widgets: title, summary, read note, save note-->
                     <div class="summary-widget-container">
                         <div class="summary-first-widget-container">
-                            <div class="summary-inner-widget">
-                                
 
+                            <!--title request inner widget-->
+                            <div class="summary-inner-widget">
                                 <div class = "notes-title-row">
                                     <h2 class="sub-title">Title: </h2>
                                     <input class="title-input" type="text" placeholder="enter note title here"></textarea>
                                 </div>
-
                             </div>
+
                             <div class="summary-inner-widget"><h2>Summary</h2></div>
                         </div>
 
+                
                         <div class="summary-second-widget-container">
+                            <!-- read note inner widget-->
                             <div class="summary-inner-widget"><h2>Read Note</h2></div>
+                            
+                            <!-- save notes inner widget-->
                             <div class="summary-inner-widget">
-
                                 <div class = "notes">
                                     <button class="notes-save" type="button">save notes</button>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -234,9 +234,9 @@ body {
 .button-container .button:not(:last-child) {
   margin-right: 1rem;
 }
-
-
 /*---- TIMER START/END BUTTON END ----*/
+
+
 /*---- NOTES TITLE BEGIN ----*/
 .notes-title-row {
   font: inherit;

@@ -1,61 +1,82 @@
-let minutes = 25;
-let seconds = 0;
-let interval;
-const notesInput = document.querySelector('.notes-input');
-const titleInput = document.querySelector('.title-input'); 
-const notesSaveButton = document.querySelector('.notes-save');
 
+const username = localStorage.getItem("username");
+const notesInput = document.querySelector('.notes-input');
+const titleInput = document.querySelector('.title-input');
+const notesSaveButton = document.querySelector('.notes-save');
+let studySessions = [];
+const sessionsList = document.querySelector('.sessions-list');
+// total session length (25 minutes)
+const STUDY_MINUTES = 25;
+const totalStudySeconds = STUDY_MINUTES * 60;
+// this value counts down during the session
+let remainingStudySeconds = totalStudySeconds;
+// prevents duplicate saves (ex: clear + finish both firing)
+let sessionSaved = false;
+let interval
+function updateTimerDisplay() {//updates UI and converts minutes to seconds
+
+  const minutes = Math.floor(remainingStudySeconds / 60);
+  const seconds = remainingStudySeconds % 60;
+  document.querySelector('.minutes').textContent = minutes;
+  document.querySelector('.seconds').textContent = String(seconds).padStart(2, '0');
+}
 // Date is sent back to the database
-// I did some formatting things to ensure backend receives it smoothly since the database just uses year, month, and day, which differs from the JS Date object formatting
+// I did some formatting things to ensure backewhy nd receives it smoothly since the database just uses year, month, and day, which differs from the JS Date object formatting
+function getDate() {
+  const dateObject = new Date(); // created right here
+  return dateObject.toISOString().substring(0, 10);
+}
+// 1. timer finishes
+// 2. user presses clear
+
+function saveStudySession() {
+
+  // don’t save twice
+  if (sessionSaved) return;
+  const completedSeconds = totalStudySeconds - remainingStudySeconds;
+  // don’t save if user didn’t actually study
+  if (completedSeconds <= 0) return;
+  sessionSaved = true;
+  const durationMinutes = Math.ceil(completedSeconds / 60);
+  fetch("http://localhost:8080/studysessions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: username,      // identifies user
+      date: getDate(),         // when session happened
+      duration: durationMinutes // how long they studied
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Failed to save session");
+    }
+    return response.text();
+  })
+  .then(data => console.log("Saved study session:", data))
+  .catch(error => console.error("Error saving study session:", error));
+}
 
 function startTimer() {
-clearInterval(interval);
+  clearInterval(interval);
   interval = setInterval(() => {
-    if (seconds === 0) {
-      if (minutes === 0) {
-        clearInterval(interval); // stop when done
-        //iago: I moved the date creation inside the timer completion
-        // commenting out date stuff const dateObject = new Date();
-        //let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend
-       // date = date.substring(0, 10); // ensures the right format for backend
-        //fire
-        fetch("http://localhost:8080/studysessions", {//fetches emmas local database api
-        method: "POST",  //fetch is an http get by default so POST to write
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          //date: date,
-          duration: 25 //here i send 25 just assuming the user completed, I could add logic to dynamically send duration later.
-          // that's all just parameters for fetch method, where, how, what to send, what type.
-        })
-      })
-      .then(response => { // now this checks if the request succeeded and does crash on empty/non json
-        if(!response.ok){ // only did this bc i didn't know if database returns json always or what.
-          throw new Error("Failed to save session");
-        }
-        return response.text();
-      }) //what to do if fetch work return response (safely)
-      .then(data => console.log("Saved study session:", data)) //now we can use the data
-      .catch(error => console.error("Error saving study session", error)) //error handling
-        // [BACKEND] SESSION COMPLETION 
-        // This is where you'd log a completed Pomodoro session to the DB.
-        // Example API call:
-        //   POST /api/sessions { userId, duration: 25, completedAt: new Date() }
-        // You could also fetch updated stats to display (e.g., sessions today)
-        //
-
-        return;
-      }
-      minutes--;
-      seconds = 59;
-    } else {
-      seconds--;
+    // if timer already done
+    if (remainingStudySeconds <= 0) {
+      clearInterval(interval);
+      saveStudySession();
+      return;
     }
-
-    // update the display
-    document.querySelector('.minutes').textContent = minutes;
-    document.querySelector('.seconds').textContent = String(seconds).padStart(2, '0');
+    // decrease time
+    remainingStudySeconds--;
+    // update UI
+    updateTimerDisplay();
+    // if it JUST hit zero, save session
+    if (remainingStudySeconds === 0) {
+      clearInterval(interval);
+      saveStudySession();
+    }
   }, 1000);
 }
 
@@ -66,12 +87,40 @@ function stopTimer() {
 function clearTimer() {
     clearInterval(interval);
 
-    // reset timer state to default
-    minutes = 25;
-    seconds = 0;
-    document.querySelector('.minutes').textContent = minutes;
-    document.querySelector('.seconds').textContent = '00';
+    //clear timer and save partial session
+    saveStudySession();
+    remainingStudySeconds = totalStudySeconds;
+    sessionSaved = false;
+    updateTimerDisplay();
+}
 
+// initialize UI on page load
+updateTimerDisplay();
+function loadSessions() {
+  if (!username || !titleInput) {
+    console.error("Missing username or title");//this is the error handling for no saved sessions
+    return;
+  }
+   const title = encodeURIComponent(titleInput.value.trim());
+  if (!title) {
+    console.log("No title provided fetch skipped");
+    return;
+  }
+
+  fetch("http://localhost:8080/studysessions?username=${username}&title=${title}")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load study sessions");
+      }
+      return response.json();
+    })
+    .then(data => {
+      studySessions = data;
+      // newest sessions first
+      studySessions.sort((a, b) => new Date(b.date) - new Date(a.date));
+      displaySessions();
+    })
+    .catch(error => console.error("Error loading sessions:", error));
 }
 
 
@@ -82,10 +131,10 @@ function noteSave() {
   }
 
   // Currently saves to localStorage (browser only — not persisted to DB)
-  localStorage.setItem('studentHelperNotes', notesInput.value);
+  //localStorage.setItem('studentHelperNotes', notesInput.value);
 
   //Add notes title to this 
-  localStorage.setItem('studentHelperNotesTitle', titleInput.value)
+  //localStorage.setItem('studentHelperNotesTitle', titleInput.value)
   // [BACKEND] SAVE NOTE TO DATABASE
   // Replace or supplement the localStorage call above with an API request.
   // Example:
@@ -98,7 +147,7 @@ function noteSave() {
 
   // Future fetch idea:
 
-  /*
+  
 
   fetch("http://localhost:8080/notes", {
 
@@ -109,7 +158,8 @@ function noteSave() {
     body: JSON.stringify({
       title: titleInput.value,
       content: notesInput.value,
-      savedAt: new Date().toISOString()
+      username: username
+      
     })
   })
   .then(response => {
@@ -121,44 +171,34 @@ function noteSave() {
   })
   .then(data => console.log("Saved note:", data))
   .catch(error => console.error("Error saving note:", error));
-  */
+  
 }
 
 function loadSavedNotes() {
   if (!notesInput || !titleInput) {
+    console.log("Missing username or title, fetch skipped.")
     return;
   }
-
+  //gets rid of spaces
+  const title = encodeURIComponent(titleInput.value.trim());
   // Currently loads from localStorage (browser only)
   notesInput.value = localStorage.getItem('studentHelperNotes') || '';
   titleInput.value = localStorage.getItem('studentHelperNotesTitle') || '';
 
-  // [BACKEND] LOAD NOTE FROM DATABASE
-  // Replace or supplement this with a fetch call to retrieve the user's saved note.
-  // Example:
-  //   GET /api/notes?userId=123
-  //   → { content: "My saved notes..." }
-  //
-  // Then set: notesInput.value = data.content || '';
-  //
-  // Consider keeping localStorage as an offline/guest fallback.
 
-  // [BACKEND] LOAD NOTE FROM DATABASE
+  fetch("http://localhost:8080/notes/${username}/${title}")
 
-  // Future fetch idea:
-
-  /*
-
-  fetch("http://localhost:8080/notes")
-
-    .then(response => response.json())
+     .then(response => {
+      if (!response.ok) {
+        throw new Error("Note not found");
+      }
+      return response.json();
+    })
     .then(data => {
       titleInput.value = data.title || '';
       notesInput.value = data.content || '';
     })
     .catch(error => console.error("Error loading note:", error));
-  */
-
 }
 
 // event listeners that wait for buttons to be clicked, and when click call methods

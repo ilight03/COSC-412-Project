@@ -240,7 +240,7 @@ body {
 /*---- NOTES TITLE BEGIN ----*/
 .notes-title-row {
   font: inherit;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
   font-style: italic;
   display: flex;
@@ -252,6 +252,7 @@ body {
   color: #888;
   font-style: italic;
 }
+
 .title-input {
   width: 100%;
 

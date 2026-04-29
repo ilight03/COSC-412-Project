@@ -15,9 +15,9 @@ clearInterval(interval);
       if (minutes === 0) {
         clearInterval(interval); // stop when done
         //iago: I moved the date creation inside the timer completion
-        const dateObject = new Date();
-        let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend
-        date = date.substring(0, 10); // ensures the right format for backend
+        // commenting out date stuff const dateObject = new Date();
+        //let date = dateObject.toISOString(); // date is the variable that should be used for sending the date to backend
+       // date = date.substring(0, 10); // ensures the right format for backend
         //fire
         fetch("http://localhost:8080/studysessions", {//fetches emmas local database api
         method: "POST",  //fetch is an http get by default so POST to write
@@ -25,7 +25,7 @@ clearInterval(interval);
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          date: date,
+          //date: date,
           duration: 25 //here i send 25 just assuming the user completed, I could add logic to dynamically send duration later.
           // that's all just parameters for fetch method, where, how, what to send, what type.
         })

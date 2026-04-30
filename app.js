@@ -50,7 +50,10 @@ function updateTimerDisplay() {
 //returns todays date in yyyy-mm-dd
 function getDate() {
   const dateObject = new Date();
-  return dateObject.toISOString().substring(0, 10);
+  let preformatDate = dateObject.toLocaleString('en-US', { timeZone: 'America/New_York' });
+  // this manual construction is necessary because JavaScript uses a different timezone
+  let date = preformatDate.substring(5,9)+ "-" + (dateObject.getMonth() + 1).toString().padStart(2, "0") + "-" + preformatDate.substring(2,4);
+  return date;
 }
 
 //displays some fallback text when no sessions returned
@@ -301,7 +304,7 @@ function updateNote() {
 
   const encodedTitle = encodeURIComponent(titleValue);
 
-  fetch(`http://localhost:8080/notes/${encodedTitle}`, {
+  fetch(`http://localhost:8080/notes/${username}/${encodedTitle}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -341,7 +344,7 @@ function deleteNote() {
 
   const encodedTitle = encodeURIComponent(titleValue);
 
-  fetch(`http://localhost:8080/notes/${encodedTitle}`, {
+  fetch(`http://localhost:8080/notes/${username}/${encodedTitle}`, {
     method: "DELETE"
   })
     .then((response) => {
@@ -392,4 +395,3 @@ if (deleteNoteButton) {
 if (loadSessionsButton) {
   loadSessionsButton.addEventListener("click", loadSessions);
 }
-

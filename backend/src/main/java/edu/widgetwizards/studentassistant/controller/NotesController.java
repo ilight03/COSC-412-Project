@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.widgetwizards.studentassistant.dto.NotesDto;
 import edu.widgetwizards.studentassistant.dto.NotesRequestDto;
 import edu.widgetwizards.studentassistant.service.NotesService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
@@ -45,6 +46,7 @@ public class NotesController {
     // NEEDS TO BE TESTED
     // Endpoint for deleting a note from the database based on the username and title provided by frontend
     @DeleteMapping("/{username}/{title}")
+    @Transactional
     public void deleteNoteByTitle(@PathVariable String username, @PathVariable String title) {
         notesService.deleteNoteByUsernameAndTitle(username, title); // calls session class method for logic
     }

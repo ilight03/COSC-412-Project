@@ -249,6 +249,17 @@ body {
   gap: 10px;
   justify-content: center;
 }
+
+.search-title-row {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
 .title-input::placeholder {
   color: #888;
   font-style: italic;
@@ -280,7 +291,7 @@ body {
 }
 
 .title-input:focus {
-  border-color: #81c784; /* your soft green */
+  border-color: #81c784; /* soft green */
   box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
 }
 /*---- NOTES TITLE END----*/

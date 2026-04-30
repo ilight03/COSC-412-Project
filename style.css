@@ -320,21 +320,30 @@ body {
   gap: 9px;
 }
 
-.notes-save {
+/* NOTES END */
+
+/*GREEN SAVE BUTTON START */
+.green-save-button {
   border: none;
-  border-radius: 0.8rem;
+  border-radius: 1.5rem;
   background-color: var(--soft--green);
   color: rgb(17, 17, 17);
-  padding: 10px 16px;
+  padding: 5px 16px;
   font: inherit;
   font-size: 1.1rem;
   font-weight: bold;
   font-style: italic;
-  text-transform: uppercase;
   letter-spacing: 1px;
-  cursor: pointer;
+  cursor: pointer;  
+
+  transition: transform 0.2s ease;
 }
-/* NOTES END */
+
+
+.green-save-button:active {
+  transform: translateY(-3px);
+}
+/*GREEN SAVE BUTTON END*/
 
 
 /*RETRIEVE NOTES WIDGET START*/

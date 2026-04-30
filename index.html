@@ -75,9 +75,9 @@
                 <div class="chart-container">
                     
                     <!--button for generating chart-->
-                    <button class="grey-button" type="button">click to generate logged study sessions</button>
+                    <button id= "load-sessions-button" class="grey-button" type="button">click to generate logged study sessions</button>
                     <div class = "chart">
-                        <textarea class="chart-data-display" placeholder="study sessions will be logged here"></textarea>
+                        <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions will be logged here"></textarea>
                     </div>
                 </div>
             </div>
@@ -93,13 +93,13 @@
                     <!--notes title request-->
                     <div class = "notes-title-row">
                         <h2 class="sub-title">Title: </h2>
-                        <input class="title-input" type="text" placeholder="title your notes..."></textarea>
+                        <input id="create-note-title" class="title-input" type="text" placeholder="title your notes...">
                     </div>
 
                     <!--write notes-->
                     <div class = "notes">
-                        <textarea class="notes-input" placeholder="write your notes here..."></textarea>
-                        <button class="green-save-button" type="button">save notes</button>
+                        <textarea id="create-note-content" class="notes-input" placeholder="write your notes here..."></textarea>
+                        <button id="save-note-button" class="green-save-button" type="button">save notes</button>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,9 @@
                             <div class="summary-inner-widget">
                                 <div class = "search-title-row">
                                     <h2>Search</h2>
-                                    <input class="title-input" type="text" placeholder="search for a title..."></textarea>
+                                    <input id="search-note-title" class="title-input" type="text" placeholder="search for a title...">
+                                    <button id="search-note-button" class="grey-button" type="button">search</button>
+
                                 </div>
                             </div>
                             <div class="summary-inner-widget"><h2>Summary</h2></div>
@@ -126,9 +128,8 @@
                             <div class="summary-inner-widget">
                                 <div class = "notes-title-row">
                                     <h2 class="sub-title">Title: </h2>
-                                    <input class="title-input" type="text" placeholder="enter note title here"></textarea>
-                               
-                                <button class="grey-button" type="button">search</button>
+                                    <input id="retrieved-note-title" class="title-input" type="text" placeholder="enter note title here">
+                            
                                  </div>
                             </div>
 
@@ -136,7 +137,6 @@
                                  <!--button for generating summary-->
                                 <button class="grey-button" type="button">click to generate summary</button>
                                 <div class = "chart">
-                                    <textarea class="chart-data-display" placeholder=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -144,12 +144,15 @@
                 
                         <div class="summary-second-widget-container">
                             <!-- read note inner widget-->
-                            <div class="summary-inner-widget"><h2>Read Note</h2></div>
+                            <div class="summary-inner-widget"><h2>Read Note</h2>
+                                <textarea id="retrieved-note-content" class="chart-data-display" placeholder=""></textarea>
+                            </div>
                             
                             <!-- save notes inner widget-->
                             <div class="summary-inner-widget">
                                 <div class = "notes">
-                                    <button class="green-save-button" type="button">save notes</button>
+                                    <button id="update-note-button" class="green-save-button" type="button">update note</button>
+                                    <button id="delete-note-button" class="grey-button" type="button">delete note</button>
                                 </div>
                             </div>
 

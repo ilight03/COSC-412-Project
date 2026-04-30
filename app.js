@@ -1,78 +1,141 @@
-
+//currently logged in username stored after button click
 const username = localStorage.getItem("username");
-const notesInput = document.querySelector('.notes-input');
-const titleInput = document.querySelector('.title-input');
-const notesSaveButton = document.querySelector('.notes-save');
+
+const createTitleInput = document.getElementById("create-note-title");
+const notesInput = document.getElementById("create-note-content");
+const saveNoteButton = document.getElementById("save-note-button");
+
+const loadSessionsButton = document.getElementById("load-sessions-button");
+const sessionsDisplay = document.getElementById("sessions-display");
+
+const searchTitleInput = document.getElementById("search-note-title");
+const searchNoteButton = document.getElementById("search-note-button");
+
+const retrievedNoteTitle = document.getElementById("retrieved-note-title");
+const retrievedNoteContent = document.getElementById("retrieved-note-content");
+
+const updateNoteButton = document.getElementById("update-note-button");
+const deleteNoteButton = document.getElementById("delete-note-button");
+
+const startButton = document.querySelector(".start");
+const pauseButton = document.querySelector(".pause");
+const clearButton = document.querySelector(".clear");
+const minutesDisplay = document.querySelector(".minutes");
+const secondsDisplay = document.querySelector(".seconds");
+
+//stores sessions currently loaded from backend!!
 let studySessions = [];
-const sessionsList = document.querySelector('.sessions-list');
-// total session length (25 minutes)
+
+//timer duration gets tracked in seconds for my countdown math logic
 const STUDY_MINUTES = 25;
 const totalStudySeconds = STUDY_MINUTES * 60;
-// this value counts down during the session
 let remainingStudySeconds = totalStudySeconds;
-// prevents duplicate saves (ex: clear + finish both firing)
+//prevents duplicates saves if timer finishes and clear is pressed close together
 let sessionSaved = false;
-let interval
-function updateTimerDisplay() {//updates UI and converts minutes to seconds
+let interval;
+
+//converts remaining seconds into MM:SS for display
+function updateTimerDisplay() {
+  if (!minutesDisplay || !secondsDisplay) {
+    return;
+  }
 
   const minutes = Math.floor(remainingStudySeconds / 60);
   const seconds = remainingStudySeconds % 60;
-  document.querySelector('.minutes').textContent = minutes;
-  document.querySelector('.seconds').textContent = String(seconds).padStart(2, '0');
+
+  minutesDisplay.textContent = minutes;
+  secondsDisplay.textContent = String(seconds).padStart(2, "0");
 }
-// Date is sent back to the database
-// I did some formatting things to ensure backewhy nd receives it smoothly since the database just uses year, month, and day, which differs from the JS Date object formatting
+
+//returns todays date in yyyy-mm-dd
 function getDate() {
-  const dateObject = new Date(); // created right here
+  const dateObject = new Date();
   return dateObject.toISOString().substring(0, 10);
 }
-// 1. timer finishes
-// 2. user presses clear
 
+//displays some fallback text when no sessions returned
+function showSessionsMessage(message) {
+  if (sessionsDisplay) {
+    sessionsDisplay.value = message;
+  }
+}
+
+//similar to above, but for notes
+function showNoteMessage(message) {
+  if (retrievedNoteTitle) {
+    retrievedNoteTitle.value = "";
+  }
+
+  if (retrievedNoteContent) {
+    retrievedNoteContent.value = message;
+  }
+}
+
+//formats all retrieved sessions into lines for textarea
+function displaySessions() {
+  if (!sessionsDisplay) {
+    return;
+  }
+
+  sessionsDisplay.value = studySessions
+    .map((session) => `Date: ${session.date} | Duration: ${session.duration} minutes`)
+    .join("\n");
+}
+
+//saves completed study sessions when timer hits 0 or clear is hit
 function saveStudySession() {
+  if (sessionSaved || !username) {
+    return;
+  }
 
-  // don’t save twice
-  if (sessionSaved) return;
   const completedSeconds = totalStudySeconds - remainingStudySeconds;
-  // don’t save if user didn’t actually study
-  if (completedSeconds <= 0) return;
+
+  if (completedSeconds <= 0) {
+    return;
+  }
+
   sessionSaved = true;
+
   const durationMinutes = Math.ceil(completedSeconds / 60);
+
   fetch("http://localhost:8080/studysessions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      username: username,      // identifies user
-      date: getDate(),         // when session happened
-      duration: durationMinutes // how long they studied
+      username,
+      date: getDate(),
+      duration: durationMinutes
     })
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Failed to save session");
-    }
-    return response.text();
-  })
-  .then(data => console.log("Saved study session:", data))
-  .catch(error => console.error("Error saving study session:", error));
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to save session");
+      }
+
+      return response.text();
+    })
+    .catch((error) => {
+      console.error("Error saving study session:", error);
+      sessionSaved = false;
+    });
 }
+
 
 function startTimer() {
   clearInterval(interval);
+
   interval = setInterval(() => {
-    // if timer already done
     if (remainingStudySeconds <= 0) {
       clearInterval(interval);
       saveStudySession();
       return;
     }
-    // decrease time
-    remainingStudySeconds--;
-    // update UI
+
+    remainingStudySeconds -= 1;
     updateTimerDisplay();
-    // if it JUST hit zero, save session
+
     if (remainingStudySeconds === 0) {
       clearInterval(interval);
       saveStudySession();
@@ -81,136 +144,252 @@ function startTimer() {
 }
 
 function stopTimer() {
-  clearInterval(interval); // pause the timer
+  clearInterval(interval);
 }
 
+//clears timer and saves partial progress
 function clearTimer() {
-    clearInterval(interval);
-
-    //clear timer and save partial session
-    saveStudySession();
-    remainingStudySeconds = totalStudySeconds;
-    sessionSaved = false;
-    updateTimerDisplay();
+  clearInterval(interval);
+  saveStudySession();
+  remainingStudySeconds = totalStudySeconds;
+  sessionSaved = false;
+  updateTimerDisplay();
 }
 
-// initialize UI on page load
-updateTimerDisplay();
+//retrieves ALL sessions for current user
+//MIGHT CHANGE ENDPOINT HERE???
 function loadSessions() {
-  if (!username || !titleInput) {
-    console.error("Missing username or title");//this is the error handling for no saved sessions
-    return;
-  }
-   const title = encodeURIComponent(titleInput.value.trim());
-  if (!title) {
-    console.log("No title provided fetch skipped");
+  if (!username) {
+    showSessionsMessage("Missing username.");
     return;
   }
 
-  fetch("http://localhost:8080/studysessions?username=${username}&title=${title}")
-    .then(response => {
+  // Future backend hook: this endpoint may need to be adjusted once backend is finalized.
+  fetch(`http://localhost:8080/studysessions/${username}`)
+    .then(async (response) => {
+      if (response.status === 404) {
+        return null;
+      }
+
       if (!response.ok) {
         throw new Error("Failed to load study sessions");
       }
+
       return response.json();
     })
-    .then(data => {
-      studySessions = data;
-      // newest sessions first
-      studySessions.sort((a, b) => new Date(b.date) - new Date(a.date));
+    .then((data) => {
+      if (!data || (Array.isArray(data) && data.length === 0)) {
+        studySessions = [];
+        showSessionsMessage("No study sessions logged yet.");
+        return;
+      }
+
+      if (!Array.isArray(data)) {
+        studySessions = [];
+        showSessionsMessage("No study sessions logged yet.");
+        return;
+      }
+
+      studySessions = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
       displaySessions();
     })
-    .catch(error => console.error("Error loading sessions:", error));
+    .catch((error) => {
+      console.error("Error loading sessions:", error);
+      showSessionsMessage("Unable to load study sessions.");
+    });
 }
 
-
-// ----------- NOTE FUNCTIONALITY--------------------
 function noteSave() {
-  if (!notesInput || !titleInput) {
+  if (!username || !createTitleInput || !notesInput) {
     return;
   }
 
-  // Currently saves to localStorage (browser only — not persisted to DB)
-  //localStorage.setItem('studentHelperNotes', notesInput.value);
+  const title = createTitleInput.value.trim();
 
-  //Add notes title to this 
-  //localStorage.setItem('studentHelperNotesTitle', titleInput.value)
-  // [BACKEND] SAVE NOTE TO DATABASE
-  // Replace or supplement the localStorage call above with an API request.
-  // Example:
-  //   const userId = getCurrentUserId(); // however you handle auth
-  //   POST /api/notes { userId, content: notesInput.value, savedAt: new Date() }
-  //
-  // On success, you might show a confirmation message to the user.
-  // On failure, the localStorage save above acts as a fallback.
-  // [BACKEND] SAVE NOTE TO DATABASE
-
-  // Future fetch idea:
-
-  
+  if (!title) {
+    showNoteMessage("Please enter a title before saving.");
+    return;
+  }
 
   fetch("http://localhost:8080/notes", {
-
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      title: titleInput.value,
-      content: notesInput.value,
-      username: username
-      
+      username,
+      date: getDate(),
+      title,
+      content: notesInput.value
     })
   })
-  .then(response => {
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to save note");
+      }
 
-    if (!response.ok) {
-      throw new Error("Failed to save note");
-    }
-    return response.text();
-  })
-  .then(data => console.log("Saved note:", data))
-  .catch(error => console.error("Error saving note:", error));
-  
+      return response.text();
+    })
+    .then(() => {
+     /* if (retrievedNoteTitle) {
+        retrievedNoteTitle.value = title;
+      }
+
+      if (retrievedNoteContent) {
+        retrievedNoteContent.value = notesInput.value;
+      }*/
+    })
+    .catch((error) => {
+      console.error("Error saving note:", error);
+      showNoteMessage("Unable to save note.");
+    });
 }
 
 function loadSavedNotes() {
-  if (!notesInput || !titleInput) {
-    console.log("Missing username or title, fetch skipped.")
+  if (!username || !searchTitleInput || !retrievedNoteTitle || !retrievedNoteContent) {
     return;
   }
-  //gets rid of spaces
-  const title = encodeURIComponent(titleInput.value.trim());
-  // Currently loads from localStorage (browser only)
-  notesInput.value = localStorage.getItem('studentHelperNotes') || '';
-  titleInput.value = localStorage.getItem('studentHelperNotesTitle') || '';
 
+  const rawTitle = searchTitleInput.value.trim();
 
-  fetch("http://localhost:8080/notes/${username}/${title}")
+  if (!rawTitle) {
+    showNoteMessage("Please enter a title to search.");
+    return;
+  }
 
-     .then(response => {
-      if (!response.ok) {
-        throw new Error("Note not found");
+  const title = encodeURIComponent(rawTitle);
+
+  fetch(`http://localhost:8080/notes/${username}/${title}`)
+    .then(async (response) => {
+      if (response.status === 404) {
+        return null;
       }
+
+      if (!response.ok) {
+        throw new Error("Failed to load note");
+      }
+
       return response.json();
     })
-    .then(data => {
-      titleInput.value = data.title || '';
-      notesInput.value = data.content || '';
+    .then((data) => {
+      if (!data) {
+        showNoteMessage("No note found with that title.");
+        return;
+      }
+
+      retrievedNoteTitle.value = data.title || rawTitle;
+      retrievedNoteContent.value = data.content || "";
     })
-    .catch(error => console.error("Error loading note:", error));
+    .catch((error) => {
+      console.error("Error loading note:", error);
+      showNoteMessage("No note found with that title.");
+    });
 }
 
-// event listeners that wait for buttons to be clicked, and when click call methods
-document.querySelector('.start').addEventListener('click', startTimer);
-document.querySelector('.end').addEventListener('click', stopTimer);
-document.querySelector('.clear').addEventListener('click', clearTimer);
+//updates existing note using the editable retrieved notes fields
+function updateNote() {
+  if (!retrievedNoteTitle || !retrievedNoteContent) {
+    return;
+  }
 
-if (notesSaveButton) {
-  notesSaveButton.addEventListener('click', noteSave);
+  const titleValue = retrievedNoteTitle.value.trim();
+
+  if (!titleValue) {
+    showNoteMessage("Please load or enter a note title first.");
+    return;
+  }
+
+  const encodedTitle = encodeURIComponent(titleValue);
+
+  fetch(`http://localhost:8080/notes/${encodedTitle}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({  
+      username, 
+      date: getDate(),
+      title: titleValue,
+      content: retrievedNoteContent.value
+    })
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to update note");
+      }
+
+      return response.text();
+    })
+    .catch((error) => {
+      console.error("Error updating note:", error);
+      showNoteMessage("Unable to update note.");
+    });
 }
 
-// Load notes on page init
-// [BACKEND] Once DB integration is in place, this should await the fetch call
-// before rendering, to avoid a flash of empty content
-loadSavedNotes();
+//deletes currently loaded note from the backend
+function deleteNote() {
+  if (!retrievedNoteTitle || !retrievedNoteContent || !searchTitleInput) {
+    return;
+  }
+
+  const titleValue = retrievedNoteTitle.value.trim() || searchTitleInput.value.trim();
+
+  if (!titleValue) {
+    showNoteMessage("Please enter a title to delete.");
+    return;
+  }
+
+  const encodedTitle = encodeURIComponent(titleValue);
+
+  fetch(`http://localhost:8080/notes/${encodedTitle}`, {
+    method: "DELETE"
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete note");
+      }
+
+      retrievedNoteTitle.value = "";
+      retrievedNoteContent.value = "";
+    })
+    .catch((error) => {
+      console.error("Error deleting note:", error);
+      showNoteMessage("Unable to delete note.");
+    });
+}
+
+updateTimerDisplay();
+
+//guarded (if wrapped) listeners prevent crashes if an element is missing from the page
+if (startButton) {
+  startButton.addEventListener("click", startTimer);
+}
+
+if (pauseButton) {
+  pauseButton.addEventListener("click", stopTimer);
+}
+
+if (clearButton) {
+  clearButton.addEventListener("click", clearTimer);
+}
+
+if (saveNoteButton) {
+  saveNoteButton.addEventListener("click", noteSave);
+}
+
+if (searchNoteButton) {
+  searchNoteButton.addEventListener("click", loadSavedNotes);
+}
+
+if (updateNoteButton) {
+  updateNoteButton.addEventListener("click", updateNote);
+}
+
+if (deleteNoteButton) {
+  deleteNoteButton.addEventListener("click", deleteNote);
+}
+
+if (loadSessionsButton) {
+  loadSessionsButton.addEventListener("click", loadSessions);
+}
+

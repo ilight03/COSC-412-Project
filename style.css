@@ -200,21 +200,21 @@ body {
 }
 
 .button-container .start {
-  background-color: var(--soft--red);
-  border-radius : 0.8rem;
-  color:rgb(17, 17, 17);
-  padding: 3px;
-}
-
-.button-container .end {
   background-color: var(--soft--green);
   border-radius : 0.8rem;
   color:rgb(17, 17, 17);
   padding: 3px;
 }
 
-.button-container .clear {
+.button-container .pause {
   background-color: grey;
+  border-radius : 0.8rem;
+  color:rgb(17, 17, 17);
+  padding: 3px;
+}
+
+.button-container .clear {
+  background-color: var(--soft--red);
   border-radius : 0.8rem;
   color:rgb(17, 17, 17);
   padding: 3px;
@@ -340,14 +340,39 @@ body {
   letter-spacing: 1px;
   cursor: pointer;  
 
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 
 .green-save-button:active {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 /*GREEN SAVE BUTTON END*/
+
+
+/*SEARCH BUTTON START */
+.grey-button {
+  border: 3px;
+  border-radius: 2rem;
+  background-color: rgb(55, 55, 55);
+  color: rgb(146, 146, 146);
+  padding: 5px 16px;
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 1px;
+  cursor: pointer;  
+
+  transition: transform 0.3s ease;
+}
+
+.grey-button:active {
+  transform: translateY(-2px);
+}
+/*SEARCH BUTTON END*/
+
+
 
 /*CHART START*/
 .chart-data-display {
@@ -390,6 +415,7 @@ body {
     grid-template-rows: 1fr 9fr;
     gap: 10px;
     height: 400px; /* ← add this */
+    
 }
 
 .summary-second-widget-container {
@@ -404,10 +430,4 @@ body {
     border-radius : 0.3rem;
 }
 
-.button-container .start {
-  background-color: var(--soft--red);
-  border-radius : 0.8rem;
-  color:rgb(17, 17, 17);
-  padding: 3px;
-}
 /*RETRIEVE NOTES WIDGET END*/

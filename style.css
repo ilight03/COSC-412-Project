@@ -285,6 +285,8 @@ body {
 }
 /*---- NOTES TITLE END----*/
 
+
+
 /*---- NOTES BEGIN ----*/
 
 .notes-input::placeholder{
@@ -322,6 +324,8 @@ body {
 
 /* NOTES END */
 
+
+
 /*GREEN SAVE BUTTON START */
 .green-save-button {
   border: none;
@@ -344,6 +348,33 @@ body {
   transform: translateY(-3px);
 }
 /*GREEN SAVE BUTTON END*/
+
+/*CHART START*/
+.chart-data-display {
+  width: 90%;
+  min-height: 180px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 0px solid #555;
+  background: #3b3b3b;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(21, 21, 21) 0,
+    rgb(21, 21, 21) 29px,
+    rgba(34, 34, 34, 0.18) 30px,
+    rgba(34, 34, 34, 0.18) 30px
+  );
+  background-position: 0 15px;
+  color: rgb(146, 146, 146);
+  /*resize: vertical;*/
+  font: inherit;
+  line-height: 30px;
+  resize: none;        /* prevents manual resizing */
+  white-space: nowrap; /* prevents text from wrapping/expanding the element */
+  overflow: auto; 
+}
+
+/*CHART END*/
 
 
 /*RETRIEVE NOTES WIDGET START*/

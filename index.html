@@ -1,150 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
-
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gradbook Project: COSC-412</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-
-
-
-    <!-- HEADER -->
-    <body>
-
-        <div class="title-container">
-            <h1 class="main-title"> Student Helper </h1>
-            <h2 class="sub-title"> here to help! </h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assistant 🎓</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        #status {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        #chat-container {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .message {
+            margin: 15px 0;
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .user-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .ai-message {
+            background: white;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            border-bottom-left-radius: 5px;
+        }
+        #input-container {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: white;
+            border-top: 2px solid #f0f0f0;
+        }
+        #user-input {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        #user-input:focus {
+            border-color: #667eea;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .loading {
+            color: #ff9800;
+        }
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            margin-top: 10px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Student Assistant</h1>
+            <div id="status">Initializing...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
         </div>
-
-
-
-        <!-- ALL WIDGETS-->
-        <div class="container-half-page-widgets">
-            
-            <div class="widget-container"> 
-
-                <!-- TIMER WIDGET-->
-                    <h1 class = "sub-title"> Timer </h1>
-
-                    <p class = studyOrBreak > [study mode]</p>
-
-
-                    <div class = "countdown-container">
         
-                        <div class = countdown>
-                            <div class = "title"> 
-                                <h2 class = "minutes"> 25 </h2>
-                            </div>
-                            <p>minutes</p>
-                        </div>
-
-                        <div class = countdown>
-                            <div class = "title"> 
-                                <h2 class = "seconds"> 00 </h2>
-                            </div>
-                            <p>seconds</p>
-                        </div>
-                    </div>
-
-                    <div class = "button-container">
-                        <div class = button>
-                            <div class = "title"> 
-                                <h2 class = "start"> start </h2>
-                            </div>
-                        </div>
-
-                        <div class = button>
-                            <div class = "title"> 
-                                <h2 class = "end"> pause </h2>
-                            </div>
-                        </div>
-
-                        <div class = button>
-                            <div class = "title"> 
-                                <h2 class = "clear"> clear </h2>
-                            </div>
-                        </div>
-                    </div>
-
-            </div>
-
-            <!--CHART WIDGET-->
-            <div class="widget-container"> 
-                <div class="chart-container">
-                    <h1 class = "sub-title"> Chart </h1>
-                    <div class = "chart">
-
-                    </div>
-                </div>
-            </div>
+        <div id="chat-container"></div>
         
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Ask me anything..." disabled>
+            <button id="send-btn" disabled>Send</button>
         </div>
-        
-        <!--NOTES WIDGET-->
-        <div class="container-full-page-widgets">
-            <div class="widget-container"> 
-                <div class="notes-container">
-                    <h1 class = "sub-title"> Notes</h1>
+    </div>
 
-                    <!--notes title request-->
-                    <div class = "notes-title-row">
-                        <h2 class="sub-title">Title: </h2>
-                        <input class="title-input" type="text" placeholder="title your notes..."></textarea>
-                    </div>
+    <script type="module">
+        import { CreateWebWorkerMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
 
-                    <!--write notes-->
-                    <div class = "notes">
-                        <textarea class="notes-input" placeholder="write your notes here..."></textarea>
-                        <button class="notes-save" type="button">save notes</button>
-                    </div>
-                </div>
-            </div>
+        let engine;
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const statusDiv = document.getElementById('status');
+        const progressBar = document.getElementById('progress');
 
+        // Initialize the AI engine
+        async function initAI() {
+            try {
+                statusDiv.textContent = "Loading AI model (first time: ~2GB download)...";
+                statusDiv.className = "loading";
 
-            <!--RETRIEVE NOTES WIDGET-->
-            <div class="widget-container"> 
-                <div class="summary-container">
-                    <h1 class = "sub-title"> Retrieve Notes</h1>
+                engine = await CreateWebWorkerMLCEngine(
+                    new Worker(
+                        new URL('./worker.js', import.meta.url),
+                        { type: 'module' }
+                    ),
+                    "Llama-3.2-3B-Instruct-q4f16_1-MLC",
+                    {
+                        initProgressCallback: (progress) => {
+                            statusDiv.textContent = progress.text;
+                            const percent = progress.progress * 100;
+                            progressBar.style.width = percent + '%';
+                        }
+                    }
+                );
 
+                statusDiv.textContent = "✨ AI Ready! Ask me anything about your studies.";
+                statusDiv.className = "";
+                progressBar.style.width = '100%';
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
 
-                    <!--inner widgets: title, summary, read note, save note-->
-                    <div class="summary-widget-container">
-                        <div class="summary-first-widget-container">
+                // Add welcome message
+                addMessage("Hello! I'm your AI study assistant. Ask me anything!", false);
 
-                            <!--title request inner widget-->
-                            <div class="summary-inner-widget">
-                                <div class = "notes-title-row">
-                                    <h2 class="sub-title">Title: </h2>
-                                    <input class="title-input" type="text" placeholder="enter note title here"></textarea>
-                                </div>
-                            </div>
+            } catch (error) {
+                statusDiv.textContent = `❌ Error: ${error.message}`;
+                console.error(error);
+            }
+        }
 
-                            <div class="summary-inner-widget"><h2>Summary</h2></div>
-                        </div>
+        // Add message to chat
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+            messageDiv.textContent = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
 
-                
-                        <div class="summary-second-widget-container">
-                            <!-- read note inner widget-->
-                            <div class="summary-inner-widget"><h2>Read Note</h2></div>
-                            
-                            <!-- save notes inner widget-->
-                            <div class="summary-inner-widget">
-                                <div class = "notes">
-                                    <button class="notes-save" type="button">save notes</button>
-                                </div>
-                            </div>
+        // Send message to AI
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-       
+            addMessage(message, true);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            statusDiv.textContent = "🤔 Thinking...";
+            statusDiv.className = "loading";
 
-    </body>
+            try {
+                const response = await engine.chat.completions.create({
+                    messages: [
+                        { role: "system", content: "You are a helpful, friendly student assistant. Provide clear, concise answers to help students learn." },
+                        { role: "user", content: message }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 512
+                });
 
-    <!-- attach javascript-->
-    <script src="app.js"></script>
+                const aiResponse = response.choices[0].message.content;
+                addMessage(aiResponse, false);
+
+                // Optional: Save to backend
+                await saveToBackend(message, aiResponse);
+
+            } catch (error) {
+                addMessage(`❌ Error: ${error.message}`, false);
+            } finally {
+                statusDiv.textContent = "✨ AI Ready!";
+                statusDiv.className = "";
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        // Save chat to backend (optional - update URL when deployed)
+        async function saveToBackend(userMessage, aiResponse) {
+            try {
+                await fetch('http://localhost:8080/api/chat/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: userMessage,
+                        response: aiResponse,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+            } catch (error) {
+                console.log('Backend not available:', error);
+            }
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Initialize on load
+        initAI();
+    </script>
+</body>
 </html>

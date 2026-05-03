@@ -15,4 +15,4 @@ COPY . .
 RUN cd backend && ./mvnw clean install
 
 # 6. Define how to start your app (update the path to your actual JAR)
-CMD ["java", "-jar", "backend/target/your-app-name.jar"]
+CMD ["java", "-jar", "backend/target/studentassistant-0.0.1-SNAPSHOT.jar"]

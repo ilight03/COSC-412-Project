@@ -252,7 +252,7 @@
         // Save chat to backend (optional - update URL when deployed)
         async function saveToBackend(userMessage, aiResponse) {
             try {
-                await fetch('http://localhost:8080/api/chat/save', {
+                await fetch('https://cosc-412-project-1-ri5h.onrender.com/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

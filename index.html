@@ -152,52 +152,52 @@
     </div>
 
     <script type="module">
-        import { CreateWebWorkerMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
-
+        import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+    
         let engine;
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         const statusDiv = document.getElementById('status');
         const progressBar = document.getElementById('progress');
-
+    
         // Initialize the AI engine
         async function initAI() {
             try {
                 statusDiv.textContent = "Loading AI model (first time: ~2GB download)...";
                 statusDiv.className = "loading";
-
-                engine = await CreateWebWorkerMLCEngine(
-                    new Worker(
-                        new URL('./worker.js', import.meta.url),
-                        { type: 'module' }
-                    ),
-                    "Llama-3.2-3B-Instruct-q4f16_1-MLC",
-                    {
-                        initProgressCallback: (progress) => {
-                            statusDiv.textContent = progress.text;
-                            const percent = progress.progress * 100;
-                            progressBar.style.width = percent + '%';
-                        }
+    
+                const initProgressCallback = (report) => {
+                    console.log(report);
+                    statusDiv.textContent = report.text;
+                    if (report.progress !== undefined) {
+                        const percent = report.progress * 100;
+                        progressBar.style.width = percent + '%';
                     }
+                };
+    
+                engine = await webllm.CreateMLCEngine(
+                    "Llama-3.2-3B-Instruct-q4f16_1-MLC",
+                    { initProgressCallback: initProgressCallback }
                 );
-
+    
                 statusDiv.textContent = "✨ AI Ready! Ask me anything about your studies.";
                 statusDiv.className = "";
                 progressBar.style.width = '100%';
                 userInput.disabled = false;
                 sendBtn.disabled = false;
                 userInput.focus();
-
+    
                 // Add welcome message
                 addMessage("Hello! I'm your AI study assistant. Ask me anything!", false);
-
+    
             } catch (error) {
                 statusDiv.textContent = `❌ Error: ${error.message}`;
+                statusDiv.className = "";
                 console.error(error);
             }
         }
-
+    
         // Add message to chat
         function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
@@ -206,37 +206,40 @@
             chatContainer.appendChild(messageDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
-
+    
         // Send message to AI
         async function sendMessage() {
             const message = userInput.value.trim();
             if (!message) return;
-
+    
             addMessage(message, true);
             userInput.value = '';
             userInput.disabled = true;
             sendBtn.disabled = true;
             statusDiv.textContent = "🤔 Thinking...";
             statusDiv.className = "loading";
-
+    
             try {
-                const response = await engine.chat.completions.create({
-                    messages: [
-                        { role: "system", content: "You are a helpful, friendly student assistant. Provide clear, concise answers to help students learn." },
-                        { role: "user", content: message }
-                    ],
+                const messages = [
+                    { role: "system", content: "You are a helpful, friendly student assistant. Provide clear, concise answers to help students learn." },
+                    { role: "user", content: message }
+                ];
+    
+                const reply = await engine.chat.completions.create({
+                    messages: messages,
                     temperature: 0.7,
                     max_tokens: 512
                 });
-
-                const aiResponse = response.choices[0].message.content;
+    
+                const aiResponse = reply.choices[0].message.content;
                 addMessage(aiResponse, false);
-
+    
                 // Optional: Save to backend
                 await saveToBackend(message, aiResponse);
-
+    
             } catch (error) {
                 addMessage(`❌ Error: ${error.message}`, false);
+                console.error(error);
             } finally {
                 statusDiv.textContent = "✨ AI Ready!";
                 statusDiv.className = "";
@@ -245,7 +248,7 @@
                 userInput.focus();
             }
         }
-
+    
         // Save chat to backend (optional - update URL when deployed)
         async function saveToBackend(userMessage, aiResponse) {
             try {
@@ -262,13 +265,13 @@
                 console.log('Backend not available:', error);
             }
         }
-
+    
         // Event listeners
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
-
+    
         // Initialize on load
         initAI();
     </script>

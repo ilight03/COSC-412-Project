@@ -88,7 +88,6 @@ body {
   text-align: center;
   padding: 20px;
   font-size: 13px;
-  font-style: italic;
 }
 /* ---- LOGIN PAGE END ---- */
 
@@ -123,7 +122,6 @@ body {
 .widget-container h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-style: italic;
 }
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS END ----*/
   
@@ -243,7 +241,6 @@ body {
   font: inherit;
   font-size: 1rem;
   font-weight: bold;
-  font-style: italic;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -254,7 +251,6 @@ body {
   font: inherit;
   font-size: 0.9rem;
   font-weight: bold;
-  font-style: italic;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -347,7 +343,6 @@ body {
   font: inherit;
   font-size: 1.1rem;
   font-weight: bold;
-  font-style: italic;
   letter-spacing: 1px;
   cursor: pointer;  
 
@@ -371,7 +366,6 @@ body {
   font: inherit;
   font-size: 1.1rem;
   font-weight: bold;
-  font-style: italic;
   letter-spacing: 1px;
   cursor: pointer;  
 

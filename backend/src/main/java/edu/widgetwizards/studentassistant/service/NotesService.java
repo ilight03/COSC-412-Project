@@ -24,8 +24,14 @@ public class NotesService {
     
     // Logic for creating a note
     public NotesDto createNote(NotesRequestDto requestDto) {
+        List<NotesDto> allTitles = getAllTitles(requestDto.getUsername());
+        for(int i = 0; i < allTitles.size(); i++) {
+            if(allTitles.get(i).getTitle().equals(requestDto.getTitle())) {
+                return null;
+            }
+        }
         // Look for an existing note with this username + title
-        Optional<NotesEntity> existing = notesRepository.findByUsernameAndTitleLike(
+        Optional<NotesEntity> existing = notesRepository.findByUsernameAndTitle(
             requestDto.getUsername(), 
             requestDto.getTitle()
         );
@@ -49,7 +55,7 @@ public class NotesService {
    
     // Logic for retrieving a note based on a title and username sent by frontend
     public NotesDto getNote(String title, String username) {
-        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitleLike(username, title);
+        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitle(username, title);
         if(!returnedEntity.isEmpty()) { // if the requested note is found
             return toDto(returnedEntity.get()); // return it as a note dto
         } else {
@@ -72,7 +78,7 @@ public class NotesService {
     // Otherwise, it returns a null to the controller class
     public NotesDto updateNote(String title, String username, NotesRequestDto requestDto) {
         // Find the requested note
-        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitleLike(username, title);
+        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitle(username, title);
         if(!returnedEntity.isEmpty()) { // If the requested note was found
             // Update all fields
             NotesEntity notesEntity = returnedEntity.get(); // .get() extracts the NotesEntity from the Optional wrapper

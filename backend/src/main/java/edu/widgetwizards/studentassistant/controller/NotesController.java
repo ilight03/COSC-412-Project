@@ -18,7 +18,14 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/notes")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+// CORS now allows both local dev (Live Server, common dev ports) AND production Netlify URL.
+@CrossOrigin(origins = {
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "https://student-assistant-412.netlify.app"
+})
 public class NotesController {
 
     private final NotesService notesService;

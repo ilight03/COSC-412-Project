@@ -1,5 +1,5 @@
 package edu.widgetwizards.studentassistant.entity;
-
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Notes")
+@Table(name = "Notes",
+uniqueConstraints = @UniqueConstraint(columnNames = {"username", "title"})
+)
 // Will be used to store the notes data in the database
 public class NotesEntity {
 

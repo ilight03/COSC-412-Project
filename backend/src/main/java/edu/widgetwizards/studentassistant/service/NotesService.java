@@ -22,12 +22,26 @@ public class NotesService {
     
     // Logic for creating a note
     public NotesDto createNote(NotesRequestDto requestDto) {
-        NotesEntity notesEntity = new NotesEntity();
-        // Sets all the attributes based on the values received from frontend
-        notesEntity.setTitle(requestDto.getTitle());
-        notesEntity.setContent(requestDto.getContent());
-        notesEntity.setUsername(requestDto.getUsername());
-        return toDto(notesRepository.save(notesEntity)); // save the note
+        // Look for an existing note with this username + title
+        Optional<NotesEntity> existing = notesRepository.findByUsernameAndTitleLike(
+            requestDto.getUsername(), 
+            requestDto.getTitle()
+        );
+    
+        NotesEntity notesEntity;
+        if (existing.isPresent()) {
+            // Update the existing note
+            notesEntity = existing.get();
+            notesEntity.setContent(requestDto.getContent());
+        } else {
+            // Create a new one
+            notesEntity = new NotesEntity();
+            notesEntity.setTitle(requestDto.getTitle());
+            notesEntity.setContent(requestDto.getContent());
+            notesEntity.setUsername(requestDto.getUsername());
+        }
+    
+        return toDto(notesRepository.save(notesEntity));
     }
         
    

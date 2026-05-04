@@ -1,6 +1,8 @@
 package edu.widgetwizards.studentassistant.service;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -83,6 +85,20 @@ public class NotesService {
             return null; // if the requested note wasn't found, return null to the controller class
         }
        
+    }
+
+    public List<NotesDto> getAllTitles(String username) {
+        List<NotesEntity> entityList = notesRepository.findByUsernameEquals(username);
+        List<NotesDto> dtoList = new ArrayList<>();
+     
+        if (!entityList.isEmpty()) { // If the list isn't empty
+            for(int i = 0; i < entityList.size(); i++) {
+                dtoList.add(toDto(entityList.get(i))); // Convert every entity in the list to a dto
+            }
+        }  // if the list is empty, this method returns an empty list
+
+
+        return dtoList;
     }
 
 

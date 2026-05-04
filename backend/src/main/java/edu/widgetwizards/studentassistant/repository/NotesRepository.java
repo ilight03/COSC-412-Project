@@ -1,5 +1,6 @@
 package edu.widgetwizards.studentassistant.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,7 @@ public interface NotesRepository extends JpaRepository<NotesEntity, Integer> {
     // could alter this to return an int or long, which indicates the number of rows that were deleted
     // could also just leave it as void though. Not sure how that would impact frontend
     void deleteByUsernameAndTitle(String username, String title);
+
+    List<NotesEntity> findByUsernameEquals(String username);
+
 }

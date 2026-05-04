@@ -1,5 +1,7 @@
 package edu.widgetwizards.studentassistant.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,4 +63,12 @@ public class NotesController {
     public NotesDto updateNote(@PathVariable String username, @PathVariable String title, @Valid @RequestBody NotesRequestDto requestDto) { // requestDto accounts for all fields
         return notesService.updateNote(title, username, requestDto); // calls session class method for logic
     }
+
+
+    @GetMapping("/{username}")
+    // Endpoint for fetching all study sessions for a username provided by frontend
+    public List<NotesDto> getAllTitles(@PathVariable String username) {
+        return notesService.getAllTitles(username); // calls session class method for logic
+    }
+
 }

@@ -2,7 +2,7 @@
 :root {
      --soft--red: #e57373;
      --soft--green: #81c784;
-     --dark--grey: #3b3b3b;; 
+     --dark--grey: #3b3b3b;
 }
 
 body {
@@ -11,9 +11,12 @@ body {
   min-height: 100vh;
   background: linear-gradient(309deg, rgba(67, 67, 84, 1) 0%, rgba(0, 0, 0, 1) 100%);
 
-  font-family: 'Red Hat Text', sans-serif;
   background-size: cover;
   color: rgb(146, 146, 146);
+
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
 }
 
 .title-container * {
@@ -110,11 +113,10 @@ body {
 }
 
 .widget-container {
-  background-color: rgb(21, 21, 21);
+  background-color: rgba(21, 21, 21, 0.5);
   border: 2px solid rgb(55, 55, 55);
   padding: 10px 10px;
   border-radius: 10px;
-
   text-align: center;
   max-width: 2040px;
 }
@@ -412,15 +414,13 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-
 }
 
 .summary-first-widget-container {
     display: grid;
     grid-template-rows: 1fr 9fr;
     gap: 10px;
-    height: 400px; /* ← add this */
-    
+    height: 400px; 
 }
 
 .summary-second-widget-container {
@@ -431,8 +431,9 @@ body {
 }
 
 .summary-inner-widget {
-    border: 1px solid #555;
+    
     border-radius : 0.3rem;
+    background-color: rgba(21, 21, 21, 0.7);
 }
 
 /*RETRIEVE NOTES WIDGET END*/

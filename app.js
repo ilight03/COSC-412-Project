@@ -4,6 +4,7 @@ const username = localStorage.getItem("username");
 const createTitleInput = document.getElementById("create-note-title");
 const notesInput = document.getElementById("create-note-content");
 const saveNoteButton = document.getElementById("save-note-button");
+const noteSaveMessage = document.getElementById("note-save-message");
 
 const loadSessionsButton = document.getElementById("load-sessions-button");
 const sessionsDisplay = document.getElementById("sessions-display");
@@ -13,6 +14,7 @@ const searchNoteButton = document.getElementById("search-note-button");
 
 const retrievedNoteTitle = document.getElementById("retrieved-note-title");
 const retrievedNoteContent = document.getElementById("retrieved-note-content");
+const noteActionMessage = document.getElementById("note-action-message");
 
 const updateNoteButton = document.getElementById("update-note-button");
 const deleteNoteButton = document.getElementById("delete-note-button");
@@ -49,11 +51,15 @@ function updateTimerDisplay() {
 
 //returns todays date in yyyy-mm-dd
 function getDate() {
-  const dateObject = new Date();
-  let preformatDate = dateObject.toLocaleString('en-US', { timeZone: 'America/New_York' });
-  // this manual construction is necessary because JavaScript uses a different timezone
-  let date = preformatDate.substring(5,9)+ "-" + (dateObject.getMonth() + 1).toString().padStart(2, "0") + "-" + preformatDate.substring(2,4);
-  return date;
+  const dateParts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York"
+  }).formatToParts(new Date());
+
+  const year = dateParts.find((part) => part.type === "year")?.value;
+  const month = dateParts.find((part) => part.type === "month")?.value?.padStart(2, "0");
+  const day = dateParts.find((part) => part.type === "day")?.value?.padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 //displays some fallback text when no sessions returned
@@ -71,6 +77,24 @@ function showNoteMessage(message) {
 
   if (retrievedNoteContent) {
     retrievedNoteContent.value = message;
+  }
+}
+
+function showNoteSaveMessage(message) {
+  if (noteSaveMessage) {
+    noteSaveMessage.textContent = message;
+  }
+}
+
+function showNoteActionMessage(message) {
+  if (noteActionMessage) {
+    noteActionMessage.textContent = message;
+  }
+}
+
+function setOriginalRetrievedNoteContent(content) {
+  if (retrievedNoteContent) {
+    retrievedNoteContent.dataset.originalContent = content;
   }
 }
 
@@ -210,9 +234,14 @@ function noteSave() {
   const title = createTitleInput.value.trim();
 
   if (!title) {
+    showNoteSaveMessage("");
+    showNoteActionMessage("");
     showNoteMessage("Please enter a title before saving.");
     return;
   }
+
+  showNoteSaveMessage("");
+  showNoteActionMessage("");
 
   fetch("http://localhost:8080/notes", {
     method: "POST",
@@ -234,28 +263,24 @@ function noteSave() {
       return response.text();
     })
     .then(() => {
-     /* if (retrievedNoteTitle) {
-        retrievedNoteTitle.value = title;
-      }
-
-      if (retrievedNoteContent) {
-        retrievedNoteContent.value = notesInput.value;
-      }*/
+      showNoteSaveMessage("Note saved successfully");
     })
     .catch((error) => {
       console.error("Error saving note:", error);
+      showNoteSaveMessage("");
       showNoteMessage("Unable to save note.");
     });
 }
 
 function loadSavedNotes() {
-  if (!username || !searchTitleInput || !retrievedNoteTitle || !retrievedNoteContent) {
+  if (!username || !searchTitleInput || !retrievedNoteContent) {
     return;
   }
 
   const rawTitle = searchTitleInput.value.trim();
 
   if (!rawTitle) {
+    showNoteActionMessage("");
     showNoteMessage("Please enter a title to search.");
     return;
   }
@@ -276,31 +301,48 @@ function loadSavedNotes() {
     })
     .then((data) => {
       if (!data) {
+        showNoteActionMessage("");
         showNoteMessage("No note found with that title.");
         return;
       }
 
-      retrievedNoteTitle.value = data.title || rawTitle;
+      if (retrievedNoteTitle) {
+        retrievedNoteTitle.value = data.title || rawTitle;
+      }
+
       retrievedNoteContent.value = data.content || "";
+      setOriginalRetrievedNoteContent(data.content || "");
+      showNoteActionMessage("");
     })
     .catch((error) => {
       console.error("Error loading note:", error);
+      showNoteActionMessage("");
       showNoteMessage("No note found with that title.");
     });
 }
 
 //updates existing note using the editable retrieved notes fields
 function updateNote() {
-  if (!retrievedNoteTitle || !retrievedNoteContent) {
+  if (!retrievedNoteContent || !searchTitleInput) {
     return;
   }
 
-  const titleValue = retrievedNoteTitle.value.trim();
+  const titleValue = retrievedNoteTitle
+    ? retrievedNoteTitle.value.trim()
+    : searchTitleInput.value.trim();
 
   if (!titleValue) {
+    showNoteActionMessage("");
     showNoteMessage("Please load or enter a note title first.");
     return;
   }
+
+  if (retrievedNoteContent.value === (retrievedNoteContent.dataset.originalContent || "")) {
+    showNoteActionMessage("No changes made");
+    return;
+  }
+
+  showNoteActionMessage("");
 
   const encodedTitle = encodeURIComponent(titleValue);
 
@@ -323,24 +365,34 @@ function updateNote() {
 
       return response.text();
     })
+    .then(() => {
+      setOriginalRetrievedNoteContent(retrievedNoteContent.value);
+      showNoteActionMessage("Note updated successfully");
+    })
     .catch((error) => {
       console.error("Error updating note:", error);
+      showNoteActionMessage("");
       showNoteMessage("Unable to update note.");
     });
 }
 
 //deletes currently loaded note from the backend
 function deleteNote() {
-  if (!retrievedNoteTitle || !retrievedNoteContent || !searchTitleInput) {
+  if (!retrievedNoteContent || !searchTitleInput) {
     return;
   }
 
-  const titleValue = retrievedNoteTitle.value.trim() || searchTitleInput.value.trim();
+  const titleValue = retrievedNoteTitle
+    ? retrievedNoteTitle.value.trim() || searchTitleInput.value.trim()
+    : searchTitleInput.value.trim();
 
   if (!titleValue) {
+    showNoteActionMessage("");
     showNoteMessage("Please enter a title to delete.");
     return;
   }
+
+  showNoteActionMessage("");
 
   const encodedTitle = encodeURIComponent(titleValue);
 
@@ -352,11 +404,16 @@ function deleteNote() {
         throw new Error("Failed to delete note");
       }
 
-      retrievedNoteTitle.value = "";
+      if (retrievedNoteTitle) {
+        retrievedNoteTitle.value = "";
+      }
       retrievedNoteContent.value = "";
+      setOriginalRetrievedNoteContent("");
+      showNoteActionMessage("Note deleted successfully");
     })
     .catch((error) => {
       console.error("Error deleting note:", error);
+      showNoteActionMessage("");
       showNoteMessage("Unable to delete note.");
     });
 }

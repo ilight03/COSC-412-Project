@@ -18,7 +18,10 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/notes")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(originPatterns = {
+    "http://localhost:*",
+    "http://127.0.0.1:*"
+})
 public class NotesController {
 
     private final NotesService notesService;

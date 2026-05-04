@@ -17,7 +17,10 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/studysessions")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(originPatterns = {
+    "http://localhost:*",
+    "http://127.0.0.1:*"
+})
 // This class talks to the client code
 // It also talks to the service class
 // Handles the HTTP requests

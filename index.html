@@ -103,6 +103,7 @@
                     <div class = "notes">
                         <textarea id="create-note-content" class="notes-input" placeholder="write your notes here..."></textarea>
                         <button id="save-note-button" class="green-save-button" type="button">save notes</button>
+                        <p id="note-save-message" class="widget-message"></p>
                     </div>
                 </div>
             </div>
@@ -138,9 +139,12 @@
                             </div>
                             -->
 
-                            <div class="summary-inner-widget"><h2></h2>
+                            <div class="summary-inner-widget">
+                                <h2></h2>
                                  <!--button for generating summary-->
-                                <button class="grey-button" type="button">click to generate summary</button>
+                                <div class="widget-action-center">
+                                    <button class="grey-button" type="button">click to generate summary</button>
+                                </div>
                                 <div class = "chart">
                                 </div>
                             </div>
@@ -150,7 +154,7 @@
                         <div class="summary-second-widget-container">
                             <!-- read note inner widget-->
                             <div class="summary-inner-widget"><h2>Read Note</h2>
-                                <textarea id="retrieved-note-content" class="chart-data-display" placeholder=""></textarea>
+                                <textarea id="retrieved-note-content" class="chart-data-display" placeholder="" data-original-content=""></textarea>
                             </div>
                             
                             <!-- save notes inner widget-->
@@ -159,6 +163,7 @@
                                     <button id="update-note-button" class="green-save-button" type="button">update note</button>
                                     <button id="delete-note-button" class="grey-button" type="button">delete note</button>
                                 </div>
+                                <p id="note-action-message" class="widget-message"></p>
                             </div>
 
                         </div>

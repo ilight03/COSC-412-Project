@@ -4,10 +4,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gradbook Project: COSC-412</title>
+        <title>Student Helper</title>
         <link rel="stylesheet" href="style.css">
+        <script src="config.js"></script>
 
-        <title>Favicon</title>
         <link rel="icon" href="data:,">
     </head>
 
@@ -77,10 +77,11 @@
             <div class="widget-container"> 
                 <div class="chart-container">
                     
-                    <!--button for generating chart-->
-                    <button id= "load-sessions-button" class="grey-button" type="button">click to generate logged study sessions</button>
+                    <!--buttons for sessions and AI insights-->
+                    <button id="load-sessions-button" class="grey-button" type="button">load study sessions</button>
+                    <button id="generate-insights-button" class="green-save-button" type="button">🤖 AI insights</button>
                     <div class = "chart">
-                        <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions will be logged here"></textarea>
+                        <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions and AI insights will appear here"></textarea>
                     </div>
                 </div>
             </div>
@@ -125,7 +126,10 @@
 
                                 </div>
                             </div>
-                            <div class="summary-inner-widget"><h2>Summary</h2></div>
+                            <div class="summary-inner-widget">
+                                <h2>Summary</h2>
+                                <textarea id="summary-display" class="chart-data-display" style="min-height: 100px;" placeholder="AI-generated summary will appear here" readonly></textarea>
+                            </div>
 
                             <!--title request inner widget-->
                             <!--
@@ -139,8 +143,8 @@
                             -->
 
                             <div class="summary-inner-widget"><h2></h2>
-                                 <!--button for generating summary-->
-                                <button class="grey-button" type="button">click to generate summary</button>
+                                 <!--button for generating AI summary-->
+                                <button id="generate-summary-button" class="green-save-button" type="button">🤖 generate AI summary</button>
                                 <div class = "chart">
                                 </div>
                             </div>

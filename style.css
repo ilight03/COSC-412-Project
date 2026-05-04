@@ -1,29 +1,29 @@
 /* ---- GLOBAL START ---- */
 :root {
-     --soft--red: #e57373;
-     --soft--green: #81c784;
-     --dark--grey: #3b3b3b;; 
+  --soft--red: #e57373;
+  --soft--green: #81c784;
+  --dark--grey: #3b3b3b;; 
 }
 
 body {
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
-  background: linear-gradient(309deg, rgba(67, 67, 84, 1) 0%, rgba(0, 0, 0, 1) 100%);
+background-repeat: no-repeat;
+background-size: cover;
+min-height: 100vh;
+background: linear-gradient(309deg, rgba(67, 67, 84, 1) 0%, rgba(0, 0, 0, 1) 100%);
 
-  font-family: 'Red Hat Text', sans-serif;
-  background-size: cover;
-  color: rgb(146, 146, 146);
+font-family: 'Red Hat Text', sans-serif;
+background-size: cover;
+color: rgb(146, 146, 146);
 }
 
 .title-container * {
-  display: grid;
-  text-align: center;
-  font-weight: bold;
+display: grid;
+text-align: center;
+font-weight: bold;
 } 
 
 .sub-title {
-  font-size: 20px;
+font-size: 20px;
 }
 /* ---- GLOBAL END ---- */
 
@@ -32,63 +32,63 @@ body {
 /* ---- LOGIN PAGE START ---- */
 
 .login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
 }
 
 .wrapper {
-  width: 420px;
-  color:#fff;
+width: 420px;
+color:#fff;
 }
 
 .wrapper h1 {
-  font-size: 36px;
-  text-align: center;
+font-size: 36px;
+text-align: center;
 }
 
 .wrapper .input-box {
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
+width: 100%;
+height: 50px;
+margin: 30px 0;
 }
 
 .input-box input {
-  width: 350px;
-  height: 10px;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(255,255,255, .2);
-  border-radius: 40px;
-  font-size: 16px;
-  color: #fff;
-  padding: 20px 45px 20px 20px;
+width: 350px;
+height: 10px;
+background: transparent;
+border: none;
+outline: none;
+border: 2px solid rgba(255,255,255, .2);
+border-radius: 40px;
+font-size: 16px;
+color: #fff;
+padding: 20px 45px 20px 20px;
 }
 
 .input-box input::placeholder {
-  color: #fff;
+color: #fff;
 }
 
 .wrapper .btn {
-  width: 100%;
-  height: 45px;
-  background: #fff;
-  border: none;
-  outline: none;
-  border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
+width: 100%;
+height: 45px;
+background: #fff;
+border: none;
+outline: none;
+border-radius: 40px;
+box-shadow: 0 0 10px rgba(0,0,0,.1);
+font-size: 16px;
+color: #333;
+font-weight: 600;
 }
 
 .register-note {
-  text-align: center;
-  padding: 20px;
-  font-size: 13px;
-  font-style: italic;
+text-align: center;
+padding: 20px;
+font-size: 13px;
+font-style: italic;
 }
 /* ---- LOGIN PAGE END ---- */
 
@@ -96,83 +96,83 @@ body {
 
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS BEGIN ----*/
 .container-half-page-widgets {
-  display: grid;
-  grid-template-rows: 280px 5px;
-  grid-template-columns: 400px minmax(350px, auto);
-  gap: 10px 10px;
-  margin: 5px;
+display: grid;
+grid-template-rows: 280px 5px;
+grid-template-columns: 400px minmax(350px, auto);
+gap: 10px 10px;
+margin: 5px;
 }
 
 .container-full-page-widgets {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 5px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin: 5px;
 }
 
 .widget-container {
-  background-color: rgb(21, 21, 21);
-  border: 2px solid rgb(55, 55, 55);
-  padding: 10px 10px;
-  border-radius: 10px;
+background-color: rgb(21, 21, 21);
+border: 2px solid rgb(55, 55, 55);
+padding: 10px 10px;
+border-radius: 10px;
 
-  text-align: center;
-  max-width: 2040px;
+text-align: center;
+max-width: 2040px;
 }
 
 .widget-container h1 {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-style: italic;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-style: italic;
 }
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS END ----*/
-  
+
 
 /*---- TIMER SPECIFIC BEGIN ----*/
 
 .studyOrBreak {
-  font-size: 10px;
+font-size: 10px;
 }
 
 .countdown-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
 .countdown-container .title {
-  position: relative;
-  background-color: var(--dark--grey);
-  border-radius : 0.3rem;
-  box-shadow: 0 4px rgba(0, 0, 0, 0.5);
-  width: 70px;
-  height: 70px;
+position: relative;
+background-color: var(--dark--grey);
+border-radius : 0.3rem;
+box-shadow: 0 4px rgba(0, 0, 0, 0.5);
+width: 70px;
+height: 70px;
 }
 
 .countdown-container .title::after{
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 1px;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+height: 1px;
+width: 100%;
+background-color: rgba(0, 0, 0, 0.3);
 }
 
 .countdown-container .title h2 {
-  font-size: 1.7rem;
-  line-height: 70px;
-  position: relative;
+font-size: 1.7rem;
+line-height: 70px;
+position: relative;
 }
 
 /* makes the number squares spaced apart from each other*/
 .countdown-container .countdown:not(:last-child) {
-  margin-right: 1rem;
+margin-right: 1rem;
 }
 
 /* the 'minutes' and 'seconds' text*/
 .countdown-container .countdown p {
-  font-size: 0.7rem;
+font-size: 0.7rem;
 }
 
 /*---- TIMER SPECIFIC END ----*/
@@ -181,118 +181,118 @@ body {
 
 /*---- TIMER START/END BUTTON BEGIN ----*/
 .button-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 5px;
 
-  font-family: 'Red Hat Text', sans-serif;
-  text-transform: uppercase;
-  font-size: 10px;
+font-family: 'Red Hat Text', sans-serif;
+text-transform: uppercase;
+font-size: 10px;
 }
 
 
 .button-container .title{
-  position: relative;
-  border-radius : 0.3rem;
-  width: 90px;
-  height: 80px;
+position: relative;
+border-radius : 0.3rem;
+width: 90px;
+height: 80px;
 }
 
 .button-container .start {
-  background-color: var(--soft--green);
-  border-radius : 0.8rem;
-  color:rgb(17, 17, 17);
-  padding: 3px;
+background-color: var(--soft--green);
+border-radius : 0.8rem;
+color:rgb(17, 17, 17);
+padding: 3px;
 }
 
 .button-container .pause {
-  background-color: grey;
-  border-radius : 0.8rem;
-  color:rgb(17, 17, 17);
-  padding: 3px;
+background-color: grey;
+border-radius : 0.8rem;
+color:rgb(17, 17, 17);
+padding: 3px;
 }
 
 .button-container .clear {
-  background-color: var(--soft--red);
-  border-radius : 0.8rem;
-  color:rgb(17, 17, 17);
-  padding: 3px;
+background-color: var(--soft--red);
+border-radius : 0.8rem;
+color:rgb(17, 17, 17);
+padding: 3px;
 }
 
 /*makes touch-activated changes possible*/
 .button h2 {
-  display: block;
-  transition: transform 0.2s ease;
+display: block;
+transition: transform 0.2s ease;
 }
 
 
 .button h2:active {
-  transform: translateY(-2px);
+transform: translateY(-2px);
 }
 
 /* makes the number squares spaced apart from each other*/
 .button-container .button:not(:last-child) {
-  margin-right: 1rem;
+margin-right: 1rem;
 }
 /*---- TIMER START/END BUTTON END ----*/
 
 
 /*---- NOTES TITLE BEGIN ----*/
 .notes-title-row {
-  font: inherit;
-  font-size: 1rem;
-  font-weight: bold;
-  font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
+font: inherit;
+font-size: 1rem;
+font-weight: bold;
+font-style: italic;
+display: flex;
+align-items: center;
+gap: 10px;
+justify-content: center;
 }
 
 .search-title-row {
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: bold;
-  font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  justify-content: center;
+font: inherit;
+font-size: 0.9rem;
+font-weight: bold;
+font-style: italic;
+display: flex;
+align-items: center;
+gap: 20px;
+justify-content: center;
 }
 .title-input::placeholder {
-  color: #888;
-  font-style: italic;
+color: #888;
+font-style: italic;
 }
 
 .title-input {
-  width: 100%;
+width: 100%;
 
-  max-width: 400px;
-  height: 20px;
-  width: 250px;
+max-width: 400px;
+height: 20px;
+width: 250px;
 
-  padding: 8px 12px;
+padding: 8px 12px;
 
-  border-radius: 8px;
-  border: 1px solid #444;
+border-radius: 8px;
+border: 1px solid #444;
 
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+background-color: #1e1e1e;
+color: #e0e0e0;
 
-  font-size: 14px;
-  font-weight: 500;
+font-size: 14px;
+font-weight: 500;
 
-  outline: none;
-  transition: all 0.2s ease;
+outline: none;
+transition: all 0.2s ease;
 }
 .title-input:hover {
-  border-color: #666;
+border-color: #666;
 }
 
 .title-input:focus {
-  border-color: #81c784; /* soft green */
-  box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
+border-color: #81c784; /* soft green */
+box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
 }
 /*---- NOTES TITLE END----*/
 
@@ -301,36 +301,36 @@ body {
 /*---- NOTES BEGIN ----*/
 
 .notes-input::placeholder{
-  color: #888;
-  font-style: italic;
+color: #888;
+font-style: italic;
 }
 
 .notes-input {
-  width: 80%;
-  min-height: 220px;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #555;
-  background: #f8f1d7;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    #f8f1d7 0,
-    #f8f1d7 29px,
-    rgba(34, 34, 34, 0.18) 30px,
-    rgba(34, 34, 34, 0.18) 30px
-  );
-  background-position: 0 15px;
-  color: #222;
-  resize: vertical;
-  font: inherit;
-  line-height: 30px;
+width: 80%;
+min-height: 220px;
+padding: 16px;
+border-radius: 12px;
+border: 1px solid #555;
+background: #f8f1d7;
+background-image: repeating-linear-gradient(
+ to bottom,
+ #f8f1d7 0,
+ #f8f1d7 29px,
+ rgba(34, 34, 34, 0.18) 30px,
+ rgba(34, 34, 34, 0.18) 30px
+);
+background-position: 0 15px;
+color: #222;
+resize: vertical;
+font: inherit;
+line-height: 30px;
 }
 
 .notes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 9px;
 }
 
 /* NOTES END */
@@ -339,47 +339,47 @@ body {
 
 /*GREEN SAVE BUTTON START */
 .green-save-button {
-  border: none;
-  border-radius: 1.5rem;
-  background-color: var(--soft--green);
-  color: rgb(17, 17, 17);
-  padding: 5px 16px;
-  font: inherit;
-  font-size: 1.1rem;
-  font-weight: bold;
-  font-style: italic;
-  letter-spacing: 1px;
-  cursor: pointer;  
+border: none;
+border-radius: 1.5rem;
+background-color: var(--soft--green);
+color: rgb(17, 17, 17);
+padding: 5px 16px;
+font: inherit;
+font-size: 1.1rem;
+font-weight: bold;
+font-style: italic;
+letter-spacing: 1px;
+cursor: pointer;  
 
-  transition: transform 0.3s ease;
+transition: transform 0.3s ease;
 }
 
 
 .green-save-button:active {
-  transform: translateY(-2px);
+transform: translateY(-2px);
 }
 /*GREEN SAVE BUTTON END*/
 
 
 /*SEARCH BUTTON START */
 .grey-button {
-  border: 3px;
-  border-radius: 2rem;
-  background-color: rgb(55, 55, 55);
-  color: rgb(146, 146, 146);
-  padding: 5px 16px;
-  font: inherit;
-  font-size: 1.1rem;
-  font-weight: bold;
-  font-style: italic;
-  letter-spacing: 1px;
-  cursor: pointer;  
+border: 3px;
+border-radius: 2rem;
+background-color: rgb(55, 55, 55);
+color: rgb(146, 146, 146);
+padding: 5px 16px;
+font: inherit;
+font-size: 1.1rem;
+font-weight: bold;
+font-style: italic;
+letter-spacing: 1px;
+cursor: pointer;  
 
-  transition: transform 0.3s ease;
+transition: transform 0.3s ease;
 }
 
 .grey-button:active {
-  transform: translateY(-2px);
+transform: translateY(-2px);
 }
 /*SEARCH BUTTON END*/
 
@@ -387,58 +387,5 @@ body {
 
 /*CHART START*/
 .chart-data-display {
-  width: 90%;
-  min-height: 180px;
-  padding: 16px;
-  border-radius: 12px;
-  border: 0px solid #555;
-  background: #3b3b3b;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgb(21, 21, 21) 0,
-    rgb(21, 21, 21) 29px,
-    rgba(34, 34, 34, 0.18) 30px,
-    rgba(34, 34, 34, 0.18) 30px
-  );
-  background-position: 0 15px;
-  color: rgb(146, 146, 146);
-  /*resize: vertical;*/
-  font: inherit;
-  line-height: 30px;
-  resize: none;        /* prevents manual resizing */
-  white-space: nowrap; /* prevents text from wrapping/expanding the element */
-  overflow: auto; 
+width: 9
 }
-
-/*CHART END*/
-
-
-/*RETRIEVE NOTES WIDGET START*/
-.summary-widget-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-
-}
-
-.summary-first-widget-container {
-    display: grid;
-    grid-template-rows: 1fr 9fr;
-    gap: 10px;
-    height: 400px; /* ← add this */
-    
-}
-
-.summary-second-widget-container {
-    display: grid;
-    grid-template-rows: 9fr 1fr;
-    gap: 10px;
-    height: 400px; 
-}
-
-.summary-inner-widget {
-    border: 1px solid #555;
-    border-radius : 0.3rem;
-}
-
-/*RETRIEVE NOTES WIDGET END*/

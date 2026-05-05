@@ -30,6 +30,7 @@ import edu.widgetwizards.studentassistant.service.AIService;
         "http://localhost:3000",
         "http://localhost:8000",
         "https://student-assistant-412.netlify.app",
+        "https://student-assistant-412.onrender.com",
         "https://exorcist-yam-factsheet.ngrok-free.dev"
 
 })

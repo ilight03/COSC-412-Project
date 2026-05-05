@@ -9,7 +9,7 @@ button.addEventListener("click", (e) => {
 
     //here this accepts any username as a way to go to the main page
     if(username){
-        localStorage.setItem("username", username); //saves user to loval for now
+        sessionStorage.setItem("username", username); //saves user to loval for now
         window.location.href = "index.html"; //moves us to main 
     }
 })

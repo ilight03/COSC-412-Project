@@ -29,7 +29,9 @@ import edu.widgetwizards.studentassistant.service.AIService;
         "http://localhost:5500",
         "http://localhost:3000",
         "http://localhost:8000",
-        "https://student-assistant-412.netlify.app"
+        "https://student-assistant-412.netlify.app",
+        "https://exorcist-yam-factsheet.ngrok-free.dev"
+
 })
 public class ChatController {
 

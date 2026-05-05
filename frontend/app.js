@@ -4,7 +4,11 @@ const API_BASE_URL = window.APP_CONFIG?.API_BASE_URL || 'http://localhost:8080';
 
 // Logged-in username (stored after login)
 const username = localStorage.getItem("username");
-
+if (!username) {
+  window.location.href = "login.html";
+  // Stop the rest of the script from running
+  throw new Error("Not logged in - redirecting");
+}
 // ==================== DOM References ====================
 const createTitleInput = document.getElementById("create-note-title");
 const notesInput = document.getElementById("create-note-content");

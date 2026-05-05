@@ -254,7 +254,12 @@ function noteSave() {
 
       return response.text();
     })
-    .then(() => {
+    .then((responseText) => {
+      if (!responseText.trim()) {
+        showNoteSaveMessage("Can't save a duplicate title");
+        return;
+      }
+
       showNoteSaveMessage("Note saved successfully");
     })
     .catch((error) => {

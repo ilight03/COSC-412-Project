@@ -10,8 +10,10 @@ body {
   background-size: cover;
   min-height: 100vh;
   background: linear-gradient(309deg, rgba(67, 67, 84, 1) 0%, rgba(0, 0, 0, 1) 100%);
+
   background-size: cover;
   color: rgb(146, 146, 146);
+
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
@@ -21,14 +23,17 @@ body {
   display: grid;
   text-align: center;
   font-weight: bold;
-}
+} 
 
 .sub-title {
   font-size: 20px;
 }
 /* ---- GLOBAL END ---- */
 
+
+
 /* ---- LOGIN PAGE START ---- */
+
 .login {
   display: flex;
   justify-content: center;
@@ -108,18 +113,14 @@ body {
   align-items: center;
 }
 
-.widget-action-stack {
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
 .register-note {
   text-align: center;
   padding: 20px;
   font-size: 13px;
 }
 /* ---- LOGIN PAGE END ---- */
+
+
 
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS BEGIN ----*/
 .container-half-page-widgets {
@@ -151,8 +152,10 @@ body {
   letter-spacing: 1px;
 }
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS END ----*/
+  
 
 /*---- TIMER SPECIFIC BEGIN ----*/
+
 .studyOrBreak {
   font-size: 10px;
 }
@@ -188,14 +191,19 @@ body {
   position: relative;
 }
 
+/* makes the number squares spaced apart from each other*/
 .countdown-container .countdown:not(:last-child) {
   margin-right: 1rem;
 }
 
+/* the 'minutes' and 'seconds' text*/
 .countdown-container .countdown p {
   font-size: 0.7rem;
 }
+
 /*---- TIMER SPECIFIC END ----*/
+
+
 
 /*---- TIMER START/END BUTTON BEGIN ----*/
 .button-container {
@@ -203,10 +211,12 @@ body {
   align-items: center;
   justify-content: center;
   padding: 5px;
+
   font-family: 'Red Hat Text', sans-serif;
   text-transform: uppercase;
   font-size: 10px;
 }
+
 
 .button-container .title{
   position: relative;
@@ -236,19 +246,23 @@ body {
   padding: 3px;
 }
 
+/*makes touch-activated changes possible*/
 .button h2 {
   display: block;
   transition: transform 0.2s ease;
 }
 
+
 .button h2:active {
   transform: translateY(-2px);
 }
 
+/* makes the number squares spaced apart from each other*/
 .button-container .button:not(:last-child) {
   margin-right: 1rem;
 }
 /*---- TIMER START/END BUTTON END ----*/
+
 
 /*---- NOTES TITLE BEGIN ----*/
 .notes-title-row {
@@ -270,7 +284,6 @@ body {
   gap: 20px;
   justify-content: center;
 }
-
 .title-input::placeholder {
   color: #888;
   font-style: italic;
@@ -278,31 +291,39 @@ body {
 
 .title-input {
   width: 100%;
+
   max-width: 400px;
   height: 20px;
   width: 250px;
+
   padding: 8px 12px;
+
   border-radius: 8px;
   border: 1px solid #444;
+
   background-color: #1e1e1e;
   color: #e0e0e0;
+
   font-size: 14px;
   font-weight: 500;
+
   outline: none;
   transition: all 0.2s ease;
 }
-
 .title-input:hover {
   border-color: #666;
 }
 
 .title-input:focus {
-  border-color: #81c784;
+  border-color: #81c784; /* soft green */
   box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
 }
 /*---- NOTES TITLE END----*/
 
+
+
 /*---- NOTES BEGIN ----*/
+
 .notes-input::placeholder{
   color: #888;
   font-style: italic;
@@ -335,7 +356,10 @@ body {
   align-items: center;
   gap: 9px;
 }
+
 /* NOTES END */
+
+
 
 /*GREEN SAVE BUTTON START */
 .green-save-button {
@@ -348,14 +372,17 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 1px;
-  cursor: pointer;
+  cursor: pointer;  
+
   transition: transform 0.3s ease;
 }
+
 
 .green-save-button:active {
   transform: translateY(-2px);
 }
 /*GREEN SAVE BUTTON END*/
+
 
 /*SEARCH BUTTON START */
 .grey-button {
@@ -368,7 +395,8 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 1px;
-  cursor: pointer;
+  cursor: pointer;  
+
   transition: transform 0.3s ease;
 }
 
@@ -376,6 +404,8 @@ body {
   transform: translateY(-2px);
 }
 /*SEARCH BUTTON END*/
+
+
 
 /*CHART START*/
 .chart-data-display {
@@ -394,13 +424,16 @@ body {
   );
   background-position: 0 15px;
   color: rgb(146, 146, 146);
+  /*resize: vertical;*/
   font: inherit;
   line-height: 30px;
-  resize: none;
-  white-space: pre-wrap;
-  overflow: auto;
+  resize: none;        /* prevents manual resizing */
+  white-space: nowrap; /* prevents text from wrapping/expanding the element */
+  overflow: auto; 
 }
+
 /*CHART END*/
+
 
 /*RETRIEVE NOTES WIDGET START*/
 .summary-widget-container {
@@ -413,20 +446,20 @@ body {
     display: grid;
     grid-template-rows: 1fr 9fr;
     gap: 10px;
-    height: 400px;
+    height: 400px; 
 }
 
 .summary-second-widget-container {
     display: grid;
     grid-template-rows: 9fr 1fr;
     gap: 10px;
-    height: 400px;
+    height: 400px; 
 }
 
 .summary-inner-widget {
-    border: 1px solid #555;
+    
     border-radius : 0.3rem;
-    padding: 12px;
+    background-color: rgba(21, 21, 21, 0.7);
 }
 
 .update-and-delete-notes {
@@ -435,4 +468,5 @@ body {
     align-items: center;
     gap: 12px;
 }
+
 /*RETRIEVE NOTES WIDGET END*/

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = window.APP_CONFIG?.API_BASE_URL || "http://localhost:8080";
 
 const createUsernameInput = document.querySelector("#createUsernameInput");
 const createPasswordInput = document.querySelector("#createPasswordInput");

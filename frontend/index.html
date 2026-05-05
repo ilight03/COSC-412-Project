@@ -78,7 +78,10 @@
                 <div class="chart-container">
                     
                     <!--button for generating chart-->
-                    <button id= "load-sessions-button" class="grey-button" type="button">click to generate logged study sessions</button>
+                    <div class="widget-action-center widget-action-stack">
+                        <button id= "load-sessions-button" class="grey-button" type="button">click to generate logged study sessions</button>
+                        <button id="generate-insights-button" class="grey-button" type="button">generate ai insights</button>
+                    </div>
                     <div class = "chart">
                         <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions will be logged here"></textarea>
                     </div>
@@ -126,7 +129,9 @@
 
                                 </div>
                             </div>
-                            <div class="summary-inner-widget"><h2>Summary</h2></div>
+                            <div class="summary-inner-widget"><h2>Summary</h2>
+                                <textarea id="summary-display" class="chart-data-display" placeholder="summary will appear here"></textarea>
+                            </div>
 
                             <!--title request inner widget-->
                             <!--
@@ -143,7 +148,7 @@
                                 <h2></h2>
                                  <!--button for generating summary-->
                                 <div class="widget-action-center">
-                                    <button class="grey-button" type="button">click to generate summary</button>
+                                    <button id="generate-summary-button" class="grey-button" type="button">click to generate summary</button>
                                 </div>
                                 <div class = "chart">
                                 </div>
@@ -173,6 +178,6 @@
         </div>
     </div>
 
-    <!-- attach javascript-->
+    <script src="config.js"></script>
     <script src="app.js"></script>
 </html>

@@ -1,6 +1,13 @@
-//currently logged in username stored after button click
-const username = localStorage.getItem("username");
+// ==================== Configuration ====================
+const API_BASE_URL = window.APP_CONFIG?.API_BASE_URL || "http://localhost:8080";
 
+const username = sessionStorage.getItem("username") || localStorage.getItem("username");
+if (!username) {
+  window.location.href = "login.html";
+  throw new Error("Not logged in - redirecting");
+}
+
+// ==================== DOM References ====================
 const createTitleInput = document.getElementById("create-note-title");
 const notesInput = document.getElementById("create-note-content");
 const saveNoteButton = document.getElementById("save-note-button");
@@ -19,24 +26,25 @@ const noteActionMessage = document.getElementById("note-action-message");
 const updateNoteButton = document.getElementById("update-note-button");
 const deleteNoteButton = document.getElementById("delete-note-button");
 
+const generateSummaryButton = document.getElementById("generate-summary-button");
+const summaryDisplay = document.getElementById("summary-display");
+const generateInsightsButton = document.getElementById("generate-insights-button");
+
 const startButton = document.querySelector(".start");
 const pauseButton = document.querySelector(".pause");
 const clearButton = document.querySelector(".clear");
 const minutesDisplay = document.querySelector(".minutes");
 const secondsDisplay = document.querySelector(".seconds");
 
-//stores sessions currently loaded from backend!!
+// ==================== Timer State ====================
 let studySessions = [];
-
-//timer duration gets tracked in seconds for my countdown math logic
 const STUDY_MINUTES = 25;
 const totalStudySeconds = STUDY_MINUTES * 60;
 let remainingStudySeconds = totalStudySeconds;
-//prevents duplicates saves if timer finishes and clear is pressed close together
 let sessionSaved = false;
 let interval;
 
-//converts remaining seconds into MM:SS for display
+// ==================== Helpers ====================
 function updateTimerDisplay() {
   if (!minutesDisplay || !secondsDisplay) {
     return;
@@ -49,7 +57,6 @@ function updateTimerDisplay() {
   secondsDisplay.textContent = String(seconds).padStart(2, "0");
 }
 
-//returns todays date in yyyy-mm-dd
 function getDate() {
   const dateParts = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York"
@@ -62,14 +69,12 @@ function getDate() {
   return `${year}-${month}-${day}`;
 }
 
-//displays some fallback text when no sessions returned
 function showSessionsMessage(message) {
   if (sessionsDisplay) {
     sessionsDisplay.value = message;
   }
 }
 
-//similar to above, but for notes
 function showNoteMessage(message) {
   if (retrievedNoteTitle) {
     retrievedNoteTitle.value = "";
@@ -98,7 +103,6 @@ function setOriginalRetrievedNoteContent(content) {
   }
 }
 
-//formats all retrieved sessions into lines for textarea
 function displaySessions() {
   if (!sessionsDisplay) {
     return;
@@ -109,23 +113,21 @@ function displaySessions() {
     .join("\n");
 }
 
-//saves completed study sessions when timer hits 0 or clear is hit
+// ==================== Timer Logic ====================
 function saveStudySession() {
   if (sessionSaved || !username) {
     return;
   }
 
   const completedSeconds = totalStudySeconds - remainingStudySeconds;
-
   if (completedSeconds <= 0) {
     return;
   }
 
   sessionSaved = true;
-
   const durationMinutes = Math.ceil(completedSeconds / 60);
 
-  fetch("http://localhost:8080/studysessions", {
+  fetch(`${API_BASE_URL}/studysessions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -148,7 +150,6 @@ function saveStudySession() {
       sessionSaved = false;
     });
 }
-
 
 function startTimer() {
   clearInterval(interval);
@@ -174,7 +175,6 @@ function stopTimer() {
   clearInterval(interval);
 }
 
-//clears timer and saves partial progress
 function clearTimer() {
   clearInterval(interval);
   saveStudySession();
@@ -183,19 +183,17 @@ function clearTimer() {
   updateTimerDisplay();
 }
 
-//retrieves ALL sessions for current user
-//MIGHT CHANGE ENDPOINT HERE???
+// ==================== Study Sessions ====================
 function loadSessions() {
   if (!username) {
-    showSessionsMessage("Missing username.");
+    showSessionsMessage("Missing username. Please log in.");
     return;
   }
 
-  // Future backend hook: this endpoint may need to be adjusted once backend is finalized.
-  fetch(`http://localhost:8080/studysessions/${username}`)
+  fetch(`${API_BASE_URL}/studysessions/${username}`)
     .then(async (response) => {
       if (response.status === 404) {
-        return null;
+        return [];
       }
 
       if (!response.ok) {
@@ -205,13 +203,7 @@ function loadSessions() {
       return response.json();
     })
     .then((data) => {
-      if (!data || (Array.isArray(data) && data.length === 0)) {
-        studySessions = [];
-        showSessionsMessage("No study sessions logged yet.");
-        return;
-      }
-
-      if (!Array.isArray(data)) {
+      if (!Array.isArray(data) || data.length === 0) {
         studySessions = [];
         showSessionsMessage("No study sessions logged yet.");
         return;
@@ -222,10 +214,11 @@ function loadSessions() {
     })
     .catch((error) => {
       console.error("Error loading sessions:", error);
-      showSessionsMessage("Unable to load study sessions.");
+      showSessionsMessage("Unable to load study sessions. Is the backend running?");
     });
 }
 
+// ==================== Notes (CRUD) ====================
 function noteSave() {
   if (!username || !createTitleInput || !notesInput) {
     return;
@@ -243,14 +236,13 @@ function noteSave() {
   showNoteSaveMessage("");
   showNoteActionMessage("");
 
-  fetch("http://localhost:8080/notes", {
+  fetch(`${API_BASE_URL}/notes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
       username,
-      date: getDate(),
       title,
       content: notesInput.value
     })
@@ -278,7 +270,6 @@ function loadSavedNotes() {
   }
 
   const rawTitle = searchTitleInput.value.trim();
-
   if (!rawTitle) {
     showNoteActionMessage("");
     showNoteMessage("Please enter a title to search.");
@@ -287,7 +278,7 @@ function loadSavedNotes() {
 
   const title = encodeURIComponent(rawTitle);
 
-  fetch(`http://localhost:8080/notes/${username}/${title}`)
+  fetch(`${API_BASE_URL}/notes/${username}/${title}`)
     .then(async (response) => {
       if (response.status === 404) {
         return null;
@@ -300,7 +291,7 @@ function loadSavedNotes() {
       return response.json();
     })
     .then((data) => {
-      if (!data) {
+      if (!data || !data.title) {
         showNoteActionMessage("");
         showNoteMessage("No note found with that title.");
         return;
@@ -313,6 +304,10 @@ function loadSavedNotes() {
       retrievedNoteContent.value = data.content || "";
       setOriginalRetrievedNoteContent(data.content || "");
       showNoteActionMessage("");
+
+      if (summaryDisplay) {
+        summaryDisplay.value = "";
+      }
     })
     .catch((error) => {
       console.error("Error loading note:", error);
@@ -321,7 +316,6 @@ function loadSavedNotes() {
     });
 }
 
-//updates existing note using the editable retrieved notes fields
 function updateNote() {
   if (!retrievedNoteContent || !searchTitleInput) {
     return;
@@ -343,17 +337,15 @@ function updateNote() {
   }
 
   showNoteActionMessage("");
-
   const encodedTitle = encodeURIComponent(titleValue);
 
-  fetch(`http://localhost:8080/notes/${username}/${encodedTitle}`, {
+  fetch(`${API_BASE_URL}/notes/${username}/${encodedTitle}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({  
-      username, 
-      date: getDate(),
+    body: JSON.stringify({
+      username,
       title: titleValue,
       content: retrievedNoteContent.value
     })
@@ -376,7 +368,6 @@ function updateNote() {
     });
 }
 
-//deletes currently loaded note from the backend
 function deleteNote() {
   if (!retrievedNoteContent || !searchTitleInput) {
     return;
@@ -393,10 +384,9 @@ function deleteNote() {
   }
 
   showNoteActionMessage("");
-
   const encodedTitle = encodeURIComponent(titleValue);
 
-  fetch(`http://localhost:8080/notes/${username}/${encodedTitle}`, {
+  fetch(`${API_BASE_URL}/notes/${username}/${encodedTitle}`, {
     method: "DELETE"
   })
     .then((response) => {
@@ -410,6 +400,10 @@ function deleteNote() {
       retrievedNoteContent.value = "";
       setOriginalRetrievedNoteContent("");
       showNoteActionMessage("Note deleted successfully");
+
+      if (summaryDisplay) {
+        summaryDisplay.value = "";
+      }
     })
     .catch((error) => {
       console.error("Error deleting note:", error);
@@ -418,37 +412,159 @@ function deleteNote() {
     });
 }
 
+// ==================== AI Features ====================
+async function generateSummary() {
+  if (!generateSummaryButton) {
+    return;
+  }
+
+  const contentValue = retrievedNoteContent?.value?.trim();
+  if (!contentValue) {
+    if (summaryDisplay) {
+      summaryDisplay.value = "Please load a note first to generate a summary.";
+    }
+    return;
+  }
+
+  const originalText = generateSummaryButton.textContent;
+  generateSummaryButton.textContent = "Generating...";
+  generateSummaryButton.disabled = true;
+
+  if (summaryDisplay) {
+    summaryDisplay.value = "AI is summarizing your note (this may take 5-30 seconds)...";
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/summarize`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ content: contentValue })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to generate summary");
+    }
+
+    if (summaryDisplay) {
+      summaryDisplay.value = data.summary || "(Empty summary returned)";
+    }
+  } catch (error) {
+    console.error("Error generating summary:", error);
+    if (summaryDisplay) {
+      summaryDisplay.value = "Error: " + error.message +
+        "\n\nMake sure:\n1. Backend is running\n2. Ollama is running\n3. The model is available";
+    }
+  } finally {
+    generateSummaryButton.textContent = originalText;
+    generateSummaryButton.disabled = false;
+  }
+}
+
+async function generateInsights() {
+  if (!username) {
+    showSessionsMessage("Please login first to see insights.");
+    return;
+  }
+
+  showSessionsMessage("Loading your study data...");
+
+  try {
+    const sessionsResponse = await fetch(`${API_BASE_URL}/studysessions/${username}`);
+    const sessions = sessionsResponse.status === 404 ? [] : await sessionsResponse.json();
+
+    if (!sessions || sessions.length === 0) {
+      showSessionsMessage("No study sessions recorded yet.\nStart tracking your study time to get insights!");
+      return;
+    }
+
+    const totalSessions = sessions.length;
+    const totalMinutes = sessions.reduce((sum, session) => sum + session.duration, 0);
+    const avgMinutes = Math.round(totalMinutes / totalSessions);
+
+    const sessionsByDate = {};
+    sessions.forEach((session) => {
+      sessionsByDate[session.date] = (sessionsByDate[session.date] || 0) + session.duration;
+    });
+
+    const dates = Object.keys(sessionsByDate).sort();
+    const recentDates = dates.slice(-7);
+    const recentMinutes = recentDates.map((date) => sessionsByDate[date]);
+    const recentAvg = recentMinutes.length > 0
+      ? Math.round(recentMinutes.reduce((a, b) => a + b, 0) / recentMinutes.length)
+      : 0;
+
+    const maxMinutes = Math.max(...Object.values(sessionsByDate));
+    const bestDate = Object.entries(sessionsByDate).find(([, minutes]) => minutes === maxMinutes)?.[0];
+
+    const statsForAI =
+      `Total sessions: ${totalSessions}\n` +
+      `Total study time: ${totalMinutes} minutes (${(totalMinutes / 60).toFixed(1)} hours)\n` +
+      `Average session length: ${avgMinutes} minutes\n` +
+      `Recent daily average (last 7 unique days): ${recentAvg} minutes\n` +
+      `Best day: ${bestDate} with ${maxMinutes} minutes\n` +
+      `Days tracked: ${dates.length}`;
+
+    let displayText = "=== YOUR STUDY STATS ===\n\n";
+    displayText += statsForAI + "\n\n";
+    displayText += "=== DAILY BREAKDOWN ===\n";
+    Object.entries(sessionsByDate).sort().forEach(([date, minutes]) => {
+      displayText += `${date}: ${minutes} minutes\n`;
+    });
+    displayText += "\n=== AI INSIGHTS ===\n";
+    displayText += "Generating personalized insights...\n";
+
+    if (sessionsDisplay) {
+      sessionsDisplay.value = displayText;
+    }
+
+    try {
+      const aiResponse = await fetch(`${API_BASE_URL}/api/insights`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ stats: statsForAI })
+      });
+
+      const aiData = await aiResponse.json();
+      const finalText = displayText.replace(
+        "Generating personalized insights...\n",
+        (aiData.insights || aiData.error || "(no insights returned)") + "\n"
+      );
+
+      if (sessionsDisplay) {
+        sessionsDisplay.value = finalText;
+      }
+    } catch (aiError) {
+      console.error("AI insights failed:", aiError);
+      const fallback = displayText.replace(
+        "Generating personalized insights...\n",
+        "(AI insights unavailable - make sure Ollama is running)\n"
+      );
+      if (sessionsDisplay) {
+        sessionsDisplay.value = fallback;
+      }
+    }
+  } catch (error) {
+    console.error("Error generating insights:", error);
+    showSessionsMessage("Unable to generate insights. Make sure the backend is running.");
+  }
+}
+
+// ==================== Initialization ====================
 updateTimerDisplay();
 
-//guarded (if wrapped) listeners prevent crashes if an element is missing from the page
-if (startButton) {
-  startButton.addEventListener("click", startTimer);
-}
-
-if (pauseButton) {
-  pauseButton.addEventListener("click", stopTimer);
-}
-
-if (clearButton) {
-  clearButton.addEventListener("click", clearTimer);
-}
-
-if (saveNoteButton) {
-  saveNoteButton.addEventListener("click", noteSave);
-}
-
-if (searchNoteButton) {
-  searchNoteButton.addEventListener("click", loadSavedNotes);
-}
-
-if (updateNoteButton) {
-  updateNoteButton.addEventListener("click", updateNote);
-}
-
-if (deleteNoteButton) {
-  deleteNoteButton.addEventListener("click", deleteNote);
-}
-
-if (loadSessionsButton) {
-  loadSessionsButton.addEventListener("click", loadSessions);
-}
+if (startButton) startButton.addEventListener("click", startTimer);
+if (pauseButton) pauseButton.addEventListener("click", stopTimer);
+if (clearButton) clearButton.addEventListener("click", clearTimer);
+if (saveNoteButton) saveNoteButton.addEventListener("click", noteSave);
+if (searchNoteButton) searchNoteButton.addEventListener("click", loadSavedNotes);
+if (updateNoteButton) updateNoteButton.addEventListener("click", updateNote);
+if (deleteNoteButton) deleteNoteButton.addEventListener("click", deleteNote);
+if (loadSessionsButton) loadSessionsButton.addEventListener("click", loadSessions);
+if (generateSummaryButton) generateSummaryButton.addEventListener("click", generateSummary);
+if (generateInsightsButton) generateInsightsButton.addEventListener("click", generateInsights);

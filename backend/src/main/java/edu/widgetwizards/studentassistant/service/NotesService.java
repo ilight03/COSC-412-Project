@@ -1,6 +1,8 @@
 package edu.widgetwizards.studentassistant.service;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -22,18 +24,38 @@ public class NotesService {
     
     // Logic for creating a note
     public NotesDto createNote(NotesRequestDto requestDto) {
-        NotesEntity notesEntity = new NotesEntity();
-        // Sets all the attributes based on the values received from frontend
-        notesEntity.setTitle(requestDto.getTitle());
-        notesEntity.setContent(requestDto.getContent());
-        notesEntity.setUsername(requestDto.getUsername());
-        return toDto(notesRepository.save(notesEntity)); // save the note
+        List<NotesDto> allTitles = getAllTitles(requestDto.getUsername());
+        for(int i = 0; i < allTitles.size(); i++) {
+            if(allTitles.get(i).getTitle().equals(requestDto.getTitle())) {
+                return null;
+            }
+        }
+        // Look for an existing note with this username + title
+        Optional<NotesEntity> existing = notesRepository.findByUsernameAndTitle(
+            requestDto.getUsername(), 
+            requestDto.getTitle()
+        );
+    
+        NotesEntity notesEntity;
+        if (existing.isPresent()) {
+            // Update the existing note
+            notesEntity = existing.get();
+            notesEntity.setContent(requestDto.getContent());
+        } else {
+            // Create a new one
+            notesEntity = new NotesEntity();
+            notesEntity.setTitle(requestDto.getTitle());
+            notesEntity.setContent(requestDto.getContent());
+            notesEntity.setUsername(requestDto.getUsername());
+        }
+    
+        return toDto(notesRepository.save(notesEntity));
     }
         
    
     // Logic for retrieving a note based on a title and username sent by frontend
     public NotesDto getNote(String title, String username) {
-        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitleLike(username, title);
+        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitle(username, title);
         if(!returnedEntity.isEmpty()) { // if the requested note is found
             return toDto(returnedEntity.get()); // return it as a note dto
         } else {
@@ -56,7 +78,7 @@ public class NotesService {
     // Otherwise, it returns a null to the controller class
     public NotesDto updateNote(String title, String username, NotesRequestDto requestDto) {
         // Find the requested note
-        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitleLike(username, title);
+        Optional<NotesEntity> returnedEntity = notesRepository.findByUsernameAndTitle(username, title);
         if(!returnedEntity.isEmpty()) { // If the requested note was found
             // Update all fields
             NotesEntity notesEntity = returnedEntity.get(); // .get() extracts the NotesEntity from the Optional wrapper
@@ -69,6 +91,20 @@ public class NotesService {
             return null; // if the requested note wasn't found, return null to the controller class
         }
        
+    }
+
+    public List<NotesDto> getAllTitles(String username) {
+        List<NotesEntity> entityList = notesRepository.findByUsernameEquals(username);
+        List<NotesDto> dtoList = new ArrayList<>();
+     
+        if (!entityList.isEmpty()) { // If the list isn't empty
+            for(int i = 0; i < entityList.size(); i++) {
+                dtoList.add(toDto(entityList.get(i))); // Convert every entity in the list to a dto
+            }
+        }  // if the list is empty, this method returns an empty list
+
+
+        return dtoList;
     }
 
 

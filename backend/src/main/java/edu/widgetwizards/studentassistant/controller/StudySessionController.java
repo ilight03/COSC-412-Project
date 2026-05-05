@@ -19,7 +19,10 @@ import jakarta.validation.Valid;
 @RequestMapping("/studysessions")
 @CrossOrigin(originPatterns = {
     "http://localhost:*",
-    "http://127.0.0.1:*"
+    "http://127.0.0.1:*",
+    "https://student-assistant-412.netlify.app",
+    "https://student-assistant-412.onrender.com",
+    "https://exorcist-yam-factsheet.ngrok-free.dev"
 })
 // This class talks to the client code
 // It also talks to the service class

@@ -1,5 +1,7 @@
 package edu.widgetwizards.studentassistant.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,10 @@ import jakarta.validation.Valid;
 @RequestMapping("/notes")
 @CrossOrigin(originPatterns = {
     "http://localhost:*",
-    "http://127.0.0.1:*"
+    "http://127.0.0.1:*",
+    "https://student-assistant-412.netlify.app",
+    "https://student-assistant-412.onrender.com",
+    "https://exorcist-yam-factsheet.ngrok-free.dev"
 })
 public class NotesController {
 
@@ -59,4 +64,12 @@ public class NotesController {
     public NotesDto updateNote(@PathVariable String username, @PathVariable String title, @Valid @RequestBody NotesRequestDto requestDto) { // requestDto accounts for all fields
         return notesService.updateNote(title, username, requestDto); // calls session class method for logic
     }
+
+
+    @GetMapping("/{username}")
+    // Endpoint for fetching all study sessions for a username provided by frontend
+    public List<NotesDto> getAllTitles(@PathVariable String username) {
+        return notesService.getAllTitles(username); // calls session class method for logic
+    }
+
 }

@@ -24,7 +24,9 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = {
         "http://127.0.0.1:*",
         "http://localhost:*",
-        "https://student-assistant-412.netlify.app"
+        "https://student-assistant-412.netlify.app",
+        "https://student-assistant-412.onrender.com",
+        "https://exorcist-yam-factsheet.ngrok-free.dev"
 })
 public class NotesController {
 

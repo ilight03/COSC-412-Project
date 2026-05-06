@@ -28,21 +28,18 @@ If you already have VS Code and your hardware meets the requirements, you still 
 
 - Java 17 installed and available on your PATH
 - Ollama installed locally
-- The `gemma4` model pulled in Ollama
-- PostgreSQL installed and running if you want to use the database features
-- A web browser to open the login page and main interface
-- The project files downloaded to your machine
+- Live Server Extension installed on VScode
 
 ## 3. How to Run the Application
 
-1. Open the project folder in VS Code or File Explorer.
+1. Open the project folder in VS Code.
 2. Double-click `START_STUDENT_ASSISTANT.bat` in the project root.
 3. Wait for the batch file to finish starting the services.
-4. Sign in on `frontend/login.html` with any username.
+4. Now open  `frontend\login.html` on live server 
 5. Use the main page to create notes, review study sessions, and try the AI features.
 
 ### What the batch file does
-- First checks for Java 17, the bundled Maven wrapper, and Ollama with the `gemma4` model.
+- First checks for Java 17, the bundled Maven wrapper, and Ollama with the `gemma2` model.
 - Starts the Ollama server locally on your machine.
 - Pulls the configured AI model, which is currently `gemma2`.
 - Launches the Spring Boot backend using the bundled Maven wrapper.

@@ -23,7 +23,7 @@ import edu.widgetwizards.studentassistant.ChatResponse;
  * Ollama runs at http://localhost:11434 and provides a REST API for local LLMs.
  * This service uses Java's built-in HttpClient (Java 11+) so no extra dependencies needed.
  * 
- * Setup: Install Ollama from https://ollama.com and run: ollama pull gemma2:2b
+ * Setup: Install Ollama from https://ollama.com and run: ollama pull gemma:2b
  */
 @Service
 public class AIService {
@@ -31,7 +31,7 @@ public class AIService {
     @Value("${spring.ai.ollama.base-url:http://localhost:11434}")
     private String ollamaBaseUrl;
 
-    @Value("${spring.ai.ollama.model:gemma2:2b}")
+    @Value("${spring.ai.ollama.model:gemma:2b}")
     private String defaultModel;
 
     private final HttpClient httpClient;

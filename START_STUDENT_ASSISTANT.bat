@@ -49,10 +49,6 @@ REM Start backend with Spring Boot (run from backend working directory so pom.xm
 echo Starting backend (Spring Boot)...
 start "Student Assistant Backend" /D "%SCRIPT_DIR%backend" cmd /k "mvnw.cmd spring-boot:run"
 
-REM Open the login page in the default browser (frontend folder)
-echo Opening login page...
-start "Student Assistant UI" "%SCRIPT_DIR%frontend\login.html"
-
 echo.
 echo Launch sequence initiated. Wait a moment for services to become ready.
 echo Frontend: %SCRIPT_DIR%frontend\login.html

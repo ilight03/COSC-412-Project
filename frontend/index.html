@@ -4,10 +4,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Helper</title>
+        <title>Gradbook Project: COSC-412</title>
         <link rel="stylesheet" href="style.css">
-        <script src="config.js"></script>
 
+        <title>Favicon</title>
         <link rel="icon" href="data:,">
     </head>
 
@@ -77,11 +77,13 @@
             <div class="widget-container"> 
                 <div class="chart-container">
                     
-                    <!--buttons for sessions and AI insights-->
-                    <button id="load-sessions-button" class="grey-button" type="button">load study sessions</button>
-                    <button id="generate-insights-button" class="green-save-button" type="button">🤖 AI insights</button>
+                    <!--button for generating chart-->
+                    <div class="widget-action-center widget-action-stack">
+                        <button id= "load-sessions-button" class="grey-button" type="button">click to generate logged study sessions</button>
+                        <button id="generate-insights-button" class="grey-button" type="button">generate ai insights</button>
+                    </div>
                     <div class = "chart">
-                        <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions and AI insights will appear here"></textarea>
+                        <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions will be logged here"></textarea>
                     </div>
                 </div>
             </div>
@@ -104,6 +106,7 @@
                     <div class = "notes">
                         <textarea id="create-note-content" class="notes-input" placeholder="write your notes here..."></textarea>
                         <button id="save-note-button" class="green-save-button" type="button">save notes</button>
+                        <p id="note-save-message" class="widget-message"></p>
                     </div>
                 </div>
             </div>
@@ -126,12 +129,12 @@
 
                                 </div>
                             </div>
-                            <div class="summary-inner-widget">
-                                <h2>Summary</h2>
-                                <textarea id="summary-display" class="chart-data-display" style="min-height: 100px;" placeholder="AI-generated summary will appear here" readonly></textarea>
+                            <div class="summary-inner-widget"><h2>Summary</h2>
+                                <textarea id="summary-display" class="chart-data-display" placeholder="summary will appear here"></textarea>
                             </div>
 
                             <!--title request inner widget-->
+                            <!--
                             <div class="summary-inner-widget">
                                 <div class = "notes-title-row">
                                     <h2 class="sub-title">Title: </h2>
@@ -139,10 +142,14 @@
                             
                                  </div>
                             </div>
+                            -->
 
-                            <div class="summary-inner-widget"><h2></h2>
-                                 <!--button for generating AI summary-->
-                                <button id="generate-summary-button" class="green-save-button" type="button">🤖 generate AI summary</button>
+                            <div class="summary-inner-widget">
+                                <h2></h2>
+                                 <!--button for generating summary-->
+                                <div class="widget-action-center">
+                                    <button id="generate-summary-button" class="grey-button" type="button">click to generate summary</button>
+                                </div>
                                 <div class = "chart">
                                 </div>
                             </div>
@@ -152,15 +159,16 @@
                         <div class="summary-second-widget-container">
                             <!-- read note inner widget-->
                             <div class="summary-inner-widget"><h2>Read Note</h2>
-                                <textarea id="retrieved-note-content" class="chart-data-display" placeholder=""></textarea>
+                                <textarea id="retrieved-note-content" class="chart-data-display" placeholder="" data-original-content=""></textarea>
                             </div>
                             
                             <!-- save notes inner widget-->
                             <div class="summary-inner-widget">
-                                <div class = "notes">
+                                <div class = "update-and-delete-notes">
                                     <button id="update-note-button" class="green-save-button" type="button">update note</button>
                                     <button id="delete-note-button" class="grey-button" type="button">delete note</button>
                                 </div>
+                                <p id="note-action-message" class="widget-message"></p>
                             </div>
 
                         </div>
@@ -170,6 +178,6 @@
         </div>
     </div>
 
-    <!-- attach javascript-->
+    <script src="config.js"></script>
     <script src="app.js"></script>
 </html>

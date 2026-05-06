@@ -24,7 +24,7 @@ import edu.widgetwizards.studentassistant.service.AIService;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {
+@CrossOrigin(originPatterns = {
         "http://localhost:*",
         "http://127.0.0.1:*"
 

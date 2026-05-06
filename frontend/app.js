@@ -29,6 +29,7 @@ const deleteNoteButton = document.getElementById("delete-note-button");
 const generateSummaryButton = document.getElementById("generate-summary-button");
 const summaryDisplay = document.getElementById("summary-display");
 const generateInsightsButton = document.getElementById("generate-insights-button");
+const logoutButton = document.getElementById("logout-button");
 
 const startButton = document.querySelector(".start");
 const pauseButton = document.querySelector(".pause");
@@ -573,3 +574,10 @@ if (deleteNoteButton) deleteNoteButton.addEventListener("click", deleteNote);
 if (loadSessionsButton) loadSessionsButton.addEventListener("click", loadSessions);
 if (generateSummaryButton) generateSummaryButton.addEventListener("click", generateSummary);
 if (generateInsightsButton) generateInsightsButton.addEventListener("click", generateInsights);
+if (logoutButton) {
+  logoutButton.addEventListener("click", () => {
+    sessionStorage.removeItem("username");
+    localStorage.removeItem("username");
+    window.location.href = "login.html";
+  });
+}

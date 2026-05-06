@@ -16,6 +16,10 @@
     <!-- HEADER -->
     <body>
 
+        <div class="top-bar">
+            <button id="logout-button" class="grey-button top-bar-button" type="button">log out</button>
+        </div>
+
         <div class="title-container">
             <h1 class="main-title"> Student Helper </h1>
             <h2 class="sub-title"> here to help! </h2>
@@ -83,7 +87,7 @@
                         <button id="generate-insights-button" class="grey-button" type="button">generate ai insights</button>
                     </div>
                     <div class = "chart">
-                        <textarea id="sessions-display" class="chart-data-display" placeholder="study sessions will be logged here"></textarea>
+                        <textarea id="sessions-display" class="chart-data-display paper-display sessions-display" placeholder="study sessions will be logged here"></textarea>
                     </div>
                 </div>
             </div>
@@ -130,7 +134,10 @@
                                 </div>
                             </div>
                             <div class="summary-inner-widget"><h2>Summary</h2>
-                                <textarea id="summary-display" class="chart-data-display" placeholder="summary will appear here"></textarea>
+                                <textarea id="summary-display" class="chart-data-display paper-display" placeholder="summary will appear here"></textarea>
+                                <div class="widget-action-center summary-button-row">
+                                    <button id="generate-summary-button" class="grey-button" type="button">click to generate summary</button>
+                                </div>
                             </div>
 
                             <!--title request inner widget-->
@@ -144,33 +151,20 @@
                             </div>
                             -->
 
-                            <div class="summary-inner-widget">
-                                <h2></h2>
-                                 <!--button for generating summary-->
-                                <div class="widget-action-center">
-                                    <button id="generate-summary-button" class="grey-button" type="button">click to generate summary</button>
-                                </div>
-                                <div class = "chart">
-                                </div>
-                            </div>
+                            <div class="summary-inner-widget"></div>
                         </div>
 
                 
                         <div class="summary-second-widget-container">
                             <!-- read note inner widget-->
-                            <div class="summary-inner-widget"><h2>Read Note</h2>
-                                <textarea id="retrieved-note-content" class="chart-data-display" placeholder="" data-original-content=""></textarea>
-                            </div>
-                            
-                            <!-- save notes inner widget-->
-                            <div class="summary-inner-widget">
+                            <div class="summary-inner-widget note-reader-widget"><h2>Read Note</h2>
+                                <textarea id="retrieved-note-content" class="chart-data-display paper-display" placeholder="" data-original-content=""></textarea>
                                 <div class = "update-and-delete-notes">
                                     <button id="update-note-button" class="green-save-button" type="button">update note</button>
                                     <button id="delete-note-button" class="grey-button" type="button">delete note</button>
                                 </div>
                                 <p id="note-action-message" class="widget-message"></p>
                             </div>
-
                         </div>
                     </div>
                 </div>

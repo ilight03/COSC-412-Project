@@ -3,6 +3,9 @@
      --soft--red: #e57373;
      --soft--green: #81c784;
      --dark--grey: #3b3b3b;
+     --title-font: "Trebuchet MS", "Avenir Next Condensed", "Arial Narrow", sans-serif;
+     --text-font: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+     --button-font: "Gill Sans", "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 body {
@@ -14,19 +17,20 @@ body {
   background-size: cover;
   color: rgb(146, 146, 146);
 
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 200;
+  font-family: var(--text-font);
+  font-weight: 400;
 }
 
 .title-container * {
   display: grid;
   text-align: center;
   font-weight: bold;
+  font-family: var(--title-font);
 } 
 
 .sub-title {
   font-size: 20px;
+  font-family: var(--title-font);
 }
 /* ---- GLOBAL END ---- */
 
@@ -49,6 +53,8 @@ body {
 .wrapper h1 {
   font-size: 36px;
   text-align: center;
+  font-family: var(--title-font);
+  letter-spacing: 0.04em;
 }
 
 .wrapper .input-box {
@@ -85,6 +91,8 @@ body {
   font-size: 16px;
   color: #333;
   font-weight: 600;
+  font-family: var(--button-font);
+  letter-spacing: 0.03em;
 }
 
 .wrapper .btn + .btn {
@@ -113,6 +121,26 @@ body {
   align-items: center;
 }
 
+.widget-action-stack {
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 14px;
+}
+
+.summary-button-row {
+  padding-top: 14px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 12px 0;
+}
+
+.top-bar-button {
+  font-size: 0.95rem;
+}
+
 .register-note {
   text-align: center;
   padding: 20px;
@@ -125,10 +153,11 @@ body {
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS BEGIN ----*/
 .container-half-page-widgets {
   display: grid;
-  grid-template-rows: 280px 5px;
+  grid-template-rows: auto;
   grid-template-columns: 400px minmax(350px, auto);
   gap: 10px 10px;
   margin: 5px;
+  align-items: stretch;
 }
 
 .container-full-page-widgets {
@@ -145,11 +174,14 @@ body {
   border-radius: 10px;
   text-align: center;
   max-width: 2040px;
+  color: rgb(146, 146, 146);
+  overflow: hidden;
 }
 
 .widget-container h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-family: var(--title-font);
 }
 /*---- APPLIED TO ALL INDEX PAGE WIDGETS END ----*/
   
@@ -212,7 +244,7 @@ body {
   justify-content: center;
   padding: 5px;
 
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: var(--button-font);
   text-transform: uppercase;
   font-size: 10px;
 }
@@ -266,7 +298,7 @@ body {
 
 /*---- NOTES TITLE BEGIN ----*/
 .notes-title-row {
-  font: inherit;
+  font-family: var(--title-font);
   font-size: 1rem;
   font-weight: bold;
   display: flex;
@@ -276,7 +308,7 @@ body {
 }
 
 .search-title-row {
-  font: inherit;
+  font-family: var(--title-font);
   font-size: 0.9rem;
   font-weight: bold;
   display: flex;
@@ -346,7 +378,7 @@ body {
   background-position: 0 15px;
   color: #222;
   resize: vertical;
-  font: inherit;
+  font-family: var(--text-font);
   line-height: 30px;
 }
 
@@ -368,7 +400,7 @@ body {
   background-color: var(--soft--green);
   color: rgb(17, 17, 17);
   padding: 5px 16px;
-  font: inherit;
+  font-family: var(--button-font);
   font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 1px;
@@ -391,7 +423,7 @@ body {
   background-color: rgb(55, 55, 55);
   color: rgb(146, 146, 146);
   padding: 5px 16px;
-  font: inherit;
+  font-family: var(--button-font);
   font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 1px;
@@ -409,7 +441,8 @@ body {
 
 /*CHART START*/
 .chart-data-display {
-  width: 90%;
+  width: 100%;
+  box-sizing: border-box;
   min-height: 180px;
   padding: 16px;
   border-radius: 12px;
@@ -424,12 +457,39 @@ body {
   );
   background-position: 0 15px;
   color: rgb(146, 146, 146);
-  /*resize: vertical;*/
-  font: inherit;
+  font-family: var(--text-font);
   line-height: 30px;
-  resize: none;        /* prevents manual resizing */
-  white-space: nowrap; /* prevents text from wrapping/expanding the element */
+  resize: none;
+  white-space: pre-wrap;
   overflow: auto; 
+}
+
+.paper-display {
+  border: 1px solid #555;
+  background: #f8f1d7;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #f8f1d7 0,
+    #f8f1d7 29px,
+    rgba(34, 34, 34, 0.18) 30px,
+    rgba(34, 34, 34, 0.18) 30px
+  );
+  color: #222;
+}
+
+.sessions-display {
+  min-height: 220px;
+  margin-bottom: 10px;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chart {
+  width: 100%;
 }
 
 /*CHART END*/
@@ -446,20 +506,28 @@ body {
     display: grid;
     grid-template-rows: 1fr 9fr;
     gap: 10px;
-    height: 400px; 
+    height: 440px; 
 }
 
 .summary-second-widget-container {
     display: grid;
-    grid-template-rows: 9fr 1fr;
+    grid-template-rows: 1fr;
     gap: 10px;
-    height: 400px; 
+    height: 440px; 
 }
 
 .summary-inner-widget {
-    
     border-radius : 0.3rem;
     background-color: rgba(21, 21, 21, 0.7);
+    border: 1px solid #555;
+    padding: 14px 14px 32px;
+    color: rgb(146, 146, 146);
+}
+
+.summary-inner-widget h2,
+.countdown-container .countdown p,
+.studyOrBreak {
+    font-family: var(--title-font);
 }
 
 .update-and-delete-notes {
@@ -467,6 +535,26 @@ body {
     justify-content: center;
     align-items: center;
     gap: 12px;
+    padding-top: 32px;
+}
+
+.note-actions-widget {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.note-reader-widget {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.note-reader-widget .chart-data-display {
+    margin-top: 4px;
+    flex: 1;
+    min-height: 260px;
 }
 
 /*RETRIEVE NOTES WIDGET END*/

@@ -25,13 +25,8 @@ import edu.widgetwizards.studentassistant.service.AIService;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = {
-        "http://127.0.0.1:5500",
-        "http://localhost:5500",
-        "http://localhost:3000",
-        "http://localhost:8000",
-        "https://student-assistant-412.netlify.app",
-        "https://student-assistant-412.onrender.com",
-        "https://exorcist-yam-factsheet.ngrok-free.dev"
+        "http://localhost:*",
+        "http://127.0.0.1:*"
 
 })
 public class ChatController {

@@ -30,6 +30,12 @@ REM Pull the configured Ollama model (fast when cached)
 echo Pulling model !OLLAMA_MODEL! (if not present)...
 call ollama pull !OLLAMA_MODEL!
 
+REM Kill any existing process on port 11434 before starting Ollama
+echo Cleaning up port 11434...
+for /f "tokens=5" %%A in ('netstat -ano ^| findstr :11434') do (
+    taskkill /PID %%A /F >nul 2>&1
+)
+
 REM Start Ollama server in a new window
 echo Starting Ollama server...
 start "Ollama Server" cmd /k "ollama serve"

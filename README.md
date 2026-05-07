@@ -29,9 +29,8 @@
 ### AI Model 
 ### Step 1: Download Ollama
 - Download Ollama launcher at this link: [Ollama](https://ollama.com/download/windows)
-- After installation, You'll be met with a window from Ollama.exe
-- You will be prompted to make an account with them. Make one. 
-    - Afterwards, **Verify by running the command in PowerShell:**
+- You will be prompted to make an account with them. 
+    - **Verify by running the command in PowerShell:**
     ```powershell
     ollama --version 
     ```
@@ -74,13 +73,13 @@
 
 *If you prefer to run the components separately, open **PowerShell** and execute these commands in order:*
 
-### Step 1: Start Ollama
+### Step 1: Start Ollama  
 - With the project open on VScode, in project terminal 
 ```powershell
 ollama serve
 ```
 
-#### For troubleshooting:
+### TROUBLESHOOTING: (**not required**):
 Ollama will listen on `http://localhost:11434`. 
 If You're returned: 
 ```powershell
@@ -98,10 +97,12 @@ If you see an instance of:
     TCP    127.0.0.1:11434        0.0.0.0:0              LISTENING       29652
     TCP    127.0.0.1:52315        127.0.0.1:11434        TIME_WAIT       0
   ```
-  Terminate that process by the last number of the service
+  Terminate that process by the last number of the service without the carrat signs(<>)
   ```powershell
     taskkill /PID <last number of service. In this case: 29652> /F
 ```
+### If you keep getting services that occupy the port upon retrying `ollama serve`, move onto Step 2. 
+- This means that there is already an instance of the gemma:2b model already running in the background from previously mentioned steps. 
 ### Step 2: Pull the Model 
 ```powershell
 ollama pull gemma:2b
@@ -111,8 +112,24 @@ ollama pull gemma:2b
 Navigate to the project's `backend` folder and run:
 ```powershell
 cd backend
+mvnw.cmd spring-boot:run
+```
+
+#### (TROUBLESHOOT): If this returns: 
+``` 
+mvnw.cmd : The term 'mvnw.cmd' is not recognized as the name of a cmdlet, function, script file,
+```
+#### Try:
+```
 ./mvnw.cmd spring-boot:run
 ```
+#### If this still returns an error, go to 
+```
+backend>src>main>java>StudentassistantApplication.java
+```
+#### Right click and select "Run Java"
+-    You will be met with Spring Boot opening in the terminal.
+
 Wait for the message: `Started StudentassistantApplication in X seconds`. Backend will be at `http://localhost:8080`.
 
 ### Step 4: Start the Frontend

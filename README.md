@@ -30,8 +30,8 @@
 ### Step 1: Download Ollama
 - Download Ollama launcher at this link: [Ollama](https://ollama.com/download/windows)
 - After installation, You'll be met with a window from Ollama.exe
-- You will be prompted to make an account with them. 
-    - **Verify by running the command in PowerShell:**
+- You will be prompted to make an account with them. Make one. 
+    - Afterwards, **Verify by running the command in PowerShell:**
     ```powershell
     ollama --version 
     ```

@@ -42,7 +42,7 @@
 ### Step 2: Install the model (Gemma:2b)
 - Now Run: 
     ```powershell
-    ollama run gemma:2b` 
+    ollama run gemma:2b 
     ```
 
     - After the install finishes, you will will be met with:

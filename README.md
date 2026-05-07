@@ -33,15 +33,13 @@ If you already have VS Code and your hardware meets the requirements, you still 
 # Install Homebrew if you don't have it (Mac)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install Java, Postgres, Node, and Ollama (Mac/Linux)
+# Install Java, Postgres, and Ollama (Mac/Linux)
 brew install --cask temurin@17
-brew install postgresql@16 node
 brew install --cask ollama
 brew services start postgresql@16
 
-# Install Java, Postgres, Node, and Ollama (Windows)
+# Install Java, Postgres, and Ollama (Windows)
 winget install EclipseAdoptium.Temurin.17.JDK
-winget install OpenJS.NodeJS.LTS
 winget install PostgreSQL.PostgreSQL.16
 winget install Ollama.Ollama
 createdb studentassistant
@@ -61,16 +59,5 @@ spring.jpa.hibernate.ddl-auto=update
 5. After the model as been downloaded, use the command 'ollama serve', this will start the AI model
 6. You can now go to the file 'login.html' and right-click on the file to open it with a Live Server
 7. This should open application in the user's browser
-
-
-
-
-
-
-
-spring.datasource.url=jdbc:postgresql://localhost:5432/studentassistant
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-spring.jpa.hibernate.ddl-auto=update
 
 

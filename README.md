@@ -18,46 +18,106 @@
 - Local model: `gemma4`
 - Java `HttpClient` and Jackson for API communication and JSON handling
 
-### Database
-- PostgreSQL
-- JPA entities, repositories, and services for notes and study sessions
+# Dependencies (DO BEFORE RUNNING): 
+### Java
+- Java 17 needs to be installed and available on your path
 
-## 2. Prerequisites
+### Live Server
+- As a VScode Extension, Install live server. 
+- After installation you should see a "Go Live" button on the bottom right corner of the window.
 
-If you already have VS Code and your hardware meets the requirements, you still need the following software ready before running the app:
+### AI Model 
+### Step 1: Download Ollama
+- Download Ollama launcher at this link: [Ollama](https://ollama.com/download/windows)
+- You will be prompted to make an account with them. 
+    - **Verify by running the command in PowerShell:**
+    ```powershell
+    ollama --version 
+    ```
+    - this should return the current version number 
+    ```powershell
+    ollama --version
+    ollama version is 0.21.0
+    ```
+### Step 2: Install the model (Gemma:2b)
+- Now Run: 
+    ```powershell
+    ollama run gemma:2b` 
+    ```
 
-- Java 17 installed and available on your PATH
-- Ollama installed locally
-- Live Server Extension installed on VScode
+    - After the install finishes, you will will be met with:
+    ```powershell
+    ollama run gemma:2b
+    >>> Send a message (/? for help)
+    ```
+    - End the instance of the model.
+    ```powershell
+    /bye
+    ```
+    - **Verify the model is installed properly by running**
+    ```powershell
+        ollama list
+    ```
+    - This will list out all of the models currently installed. 
+    ```powershell
+    ollama list
+    NAME        ID              SIZE      MODIFIED       
+    gemma:2b    b50d6c999e59    1.7 GB    30 minutes ago    
+    ```
+    - You should see the model name, size, ID , and date modified in a collumn. 
 
-# Install Homebrew if you don't have it (Mac)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install Java, Postgres, and Ollama (Mac/Linux)
-brew install --cask temurin@17
-brew install --cask ollama
-brew services start postgresql@16
+## Manual Start Commands (Windows PowerShell)
 
-# Install Java, Postgres, and Ollama (Windows)
-winget install EclipseAdoptium.Temurin.17.JDK
-winget install PostgreSQL.PostgreSQL.16
-winget install Ollama.Ollama
-createdb studentassistant
 
-# Configure database credentials on application.properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/studentassistant
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-spring.jpa.hibernate.ddl-auto=update
 
-## 3. How to Run the Application
+*If you prefer to run the components separately, open **PowerShell** and execute these commands in order:*
 
+### Step 1: Start Ollama
+- With the project open on VScode, in project terminal 
+```powershell
+ollama serve
+```
+
+#### For troubleshooting:
+Ollama will listen on `http://localhost:11434`. 
+If You're returned: 
+```powershell
+    Error: listen tcp 127.0.0.1:11434: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+```
+Run: 
+
+```powershell
+netstat -ano | findstr :11434
+```
+
+If you see an instance of: 
+
+```powershell
+    TCP    127.0.0.1:11434        0.0.0.0:0              LISTENING       29652
+    TCP    127.0.0.1:52315        127.0.0.1:11434        TIME_WAIT       0
+  ```
+  Terminate that process by the last number of the service
+  ```powershell
+    taskkill /PID <last number of service. In this case: 29652> /F
+```
+### Step 2: Pull the Model 
+```powershell
+ollama pull gemma:2b
+```
+
+### Step 3: Start the Backend 
+Navigate to the project's `backend` folder and run:
+```powershell
+cd backend
+./mvnw.cmd spring-boot:run
+```
+Wait for the message: `Started StudentassistantApplication in X seconds`. Backend will be at `http://localhost:8080`.
+
+### Step 4: Start the Frontend
 1. Open the project folder in VS Code.
-2. Open the terminal and use the command 'cd backend' to make your way to the backend files
-3. Once there, in the terminal use the command 'mvnw.cmd clean install' (For Windows), or './mvnw clean install' to start the backend so that it can receive requests from the frontend
-4. Open a new terminal, and use the commad 'ollama pull gemma2:2b' to download AI model
-5. After the model as been downloaded, use the command 'ollama serve', this will start the AI model
-6. You can now go to the file 'login.html' and right-click on the file to open it with a Live Server
-7. This should open application in the user's browser
+2. Right-click on `frontend/login.html` and select **"Open with Live Server"**.
+3. Your browser will open to the login page automatically.
+
 
 
